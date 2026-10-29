@@ -88,7 +88,9 @@ def site_evidence(site):
         ev['level'] = 'redireciona para WhatsApp/Messenger'
         return ev
     text = site.get('text') or ''
-    if len(text.strip()) < 200:
+    # COD landing pages are often a stack of images plus a buy button, so only a
+    # page with neither visible text nor a sizeable document counts as empty.
+    if len(text.strip()) < 20 and (site.get('html_len') or 0) < 50000:
         ev['reason'] = 'página sem conteúdo renderizado'
         ev['level'] = 'site sem conteúdo'
         return ev
@@ -235,6 +237,9 @@ def alerts(o, ev, text):
         out.append('site sem indicação clara de Colômbia/COP')
     if o['key'].rstrip('/').count('/') <= 2:
         out.append('anúncios levam à home da loja (oferta = loja)')
+    fh = C.host(ev.get('final_url') or '')
+    if fh and fh != C.host(o['url']):
+        out.append(f'destino redireciona para outro domínio: {fh}')
     return out
 
 

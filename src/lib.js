@@ -156,13 +156,27 @@ async function fetchLibrary(ctx, url, source) {
   }
 }
 
+// The Library sometimes serves a page that reloads itself once before the
+// results render; reading during that reload destroys the execution context.
+async function readScripts(page) {
+  for (let i = 0; ; i++) {
+    try {
+      return await page.$$eval('script[type="application/json"]', els => els.map(e => e.textContent));
+    } catch (e) {
+      if (i >= 3 || !/context was destroyed|navigat/i.test(String(e))) throw e;
+      await page.waitForLoadState('domcontentloaded', { timeout: 20000 }).catch(() => {});
+      await page.waitForTimeout(2000);
+    }
+  }
+}
+
 async function readLibraryPage(page, url, source) {
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
   await page.waitForTimeout(2500);
-  let jsons = await page.$$eval('script[type="application/json"]', els => els.map(e => e.textContent));
+  let jsons = await readScripts(page);
   if (!jsons.some(j => j.includes('search_results_connection'))) {
     await page.waitForTimeout(5000);
-    jsons = await page.$$eval('script[type="application/json"]', els => els.map(e => e.textContent));
+    jsons = await readScripts(page);
   }
   for (const j of jsons) {
     if (!j.includes('search_results_connection')) continue;
@@ -172,7 +186,7 @@ async function readLibraryPage(page, url, source) {
     const raw = conn.edges.flatMap(e => e.node.collated_results || []);
     return { ok: true, count: conn.count, captcha, ads: raw.map(a => normalizeAd(a, source)) };
   }
-  const text = await page.evaluate(() => document.body ? document.body.innerText : '');
+  const text = await page.evaluate(() => document.body ? document.body.innerText : '').catch(e => String(e));
   return { ok: false, count: null, captcha: /captcha|seguridad/i.test(text), ads: [], text: text.slice(0, 300) };
 }
 
