@@ -193,18 +193,19 @@ def product_name(offer, ev):
 
 
 def score_offer(o, page, ev):
-    age, cr, rep = o['age_days'], o['distinct_creatives'], o['represented_ads']
-    s_long = 25 if age >= 180 else 20 if age >= 90 else 15 if age >= 60 else 10 if age >= 30 else 0
+    age, cr, dup = o['age_days'], o['distinct_creatives'], o['max_duplicates']
+    s_long = 20 if age >= 180 else 16 if age >= 90 else 12 if age >= 60 else 8 if age >= 30 else 0
     s_cr = 20 if cr >= 20 else 15 if cr >= 10 else 10 if cr >= 5 else 5 if cr >= 3 else 0
-    s_ads = 15 if rep >= 30 else 12 if rep >= 20 else 8 if rep >= 10 else 4 if rep >= 5 else 0
+    # Largest group of identical ads ("N anuncios usan este contenido").
+    s_ads = 20 if dup >= 30 else 16 if dup >= 20 else 12 if dup >= 10 else 8 if dup >= 5 else 4 if dup >= 3 else 0
     s_cont = 10 if (o['recent_ads'] and o['older_ads']) else 3 if o['older_ads'] else 0
     total = page['slices']['all'].get('count') or 0
     s_page = 10 if total >= 200 else 7 if total >= 100 else 4 if total >= 50 else 0
     cod_doc = ev['level'] in ('documentado no site', 'formulário COD detectado')
     cod_partial = (not cod_doc) and (ev['level'] == 'menção no código da página' or bool(o['ad_cod_phrases']))
-    s_cod = 15 if cod_doc else 6 if cod_partial else 0
+    s_cod = 10 if cod_doc else 4 if cod_partial else 0
     s_site = 5 if ev['ok'] else 0
-    parts = dict(longevidade=s_long, criativos=s_cr, anuncios=s_ads, continuidade=s_cont, escala_pagina=s_page, cod=s_cod, site=s_site)
+    parts = dict(longevidade=s_long, criativos=s_cr, duplicacoes=s_ads, continuidade=s_cont, escala_pagina=s_page, cod=s_cod, site=s_site)
     return sum(parts.values()), parts, cod_doc, cod_partial
 
 
@@ -217,7 +218,7 @@ def classify(o, ev, score, cod_doc, cod_partial):
         return TIERS[3], ev['reason'] or ev['level']
     if ev['currency'] not in (None, 'COP') and not ev['colombia']:
         return TIERS[3], f'site em outra moeda ({ev["currency"]})'
-    scale = o['distinct_creatives'] >= 10 or o['represented_ads'] >= 10
+    scale = o['distinct_creatives'] >= 10 or o['max_duplicates'] >= 10 or o['represented_ads'] >= 10
     if cod_doc and o['age_days'] >= 30 and scale and score >= 65:
         return TIERS[0], None
     if (cod_doc or cod_partial) and o['age_days'] >= 30 and score >= 45:
@@ -227,7 +228,7 @@ def classify(o, ev, score, cod_doc, cod_partial):
 
 def justify(o, page, ev, parts, cod_doc):
     bits = []
-    bits.append(f"{o['n_ads']} anúncios observados ligados à oferta ({o['represented_ads']} contando duplicatas agrupadas), {o['distinct_creatives']} criativos distintos")
+    bits.append(f"{o['represented_ads']} anúncios ligados à oferta contando duplicatas (maior anúncio duplicado {o['max_duplicates']}x), {o['distinct_creatives']} criativos distintos")
     if o['oldest_start']:
         bits.append(f"anúncio mais antigo ativo desde {o['oldest_start']} ({o['age_days']} dias)")
     if o['recent_ads'] and o['older_ads']:
@@ -327,6 +328,7 @@ def main():
                 'resultados_pagina_30d_mais': page['slices']['30d'].get('count'),
                 'resultados_pagina_90d_mais': page['slices'].get('90d', {}).get('count', ''),
                 'anuncios_oferta_observados': o['n_ads'], 'anuncios_oferta_com_duplicatas': o['represented_ads'],
+                'maior_grupo_duplicado': o['max_duplicates'], 'grupos_de_anuncio': o['ad_groups'],
                 'criativos_distintos': o['distinct_creatives'], 'textos_distintos': o['distinct_copies'],
                 'inicio_mais_antigo': o['oldest_start'], 'dias_veiculacao': o['age_days'],
                 'anuncios_novos_30d': o['recent_ads'], 'anuncios_30d_mais': o['older_ads'],
@@ -401,12 +403,12 @@ def write_markdown(rows, inelig, pages, search_ads, sites, today):
     L.append('')
     L.append('| Componente | Regra | Máx. |')
     L.append('|---|---|---|')
-    L.append('| Longevidade | anúncio mais antigo ativo da oferta: 30+ d=10, 60+=15, 90+=20, 180+=25 | 25 |')
+    L.append('| Longevidade | anúncio mais antigo ativo da oferta: 30+ d=8, 60+=12, 90+=16, 180+=20 | 20 |')
     L.append('| Criativos distintos | mídia distinta (vídeo/imagem): 3+=5, 5+=10, 10+=15, 20+=20 | 20 |')
-    L.append('| Anúncios da oferta | inclui duplicatas agrupadas pela Biblioteca: 5+=4, 10+=8, 20+=12, 30+=15 | 15 |')
+    L.append('| Duplicações | maior grupo de anúncios iguais ("N anúncios usam esse conteúdo"): 3+=4, 5+=8, 10+=12, 20+=16, 30+=20 | 20 |')
     L.append('| Continuidade | anúncios com 30+ dias **e** anúncios novos (<30 d)=10; só antigos=3 | 10 |')
     L.append('| Escala da página | resultados ativos: 50+=4, 100+=7, 200+=10 | 10 |')
-    L.append('| COD | documentado no site ou formulário COD=15; só no anúncio/código=6 | 15 |')
+    L.append('| COD | documentado no site ou formulário COD=10; só no anúncio/código=4 | 10 |')
     L.append('| Site funcional | página abriu com conteúdo | 5 |')
     L.append('')
     L.append('**Forte candidata**: COD documentado no destino, 30+ dias, 10+ criativos ou 10+ anúncios, pontuação ≥ 65. **Promissora**: COD documentado ou citado, 30+ dias, pontuação ≥ 45. **Necessita verificação**: destino é site, mas faltam provas. **Não elegível**: destino inacessível, redireciona a mensageria ou outra moeda/país.')
@@ -417,12 +419,12 @@ def write_markdown(rows, inelig, pages, search_ads, sites, today):
             continue
         L.append(f'## {tier} ({len(items)})')
         L.append('')
-        L.append('| # | Produto | Nicho | Página | Total pág. | Anúncios oferta | Criativos | Desde | Pontos | Conf. | Preço | Links |')
-        L.append('|---|---|---|---|---|---|---|---|---|---|---|---|')
+        L.append('| # | Produto | Nicho | Página | Total pág. | Anúncios oferta | Maior dup. | Criativos | Desde | Pontos | Conf. | Preço | Links |')
+        L.append('|---|---|---|---|---|---|---|---|---|---|---|---|---|')
         for r in items:
             links = f"[Biblioteca]({r['link_biblioteca_pagina']}) · [Anúncio]({r['link_anuncio_principal']}) · [Site]({r['link_site']})"
             L.append(f"| {r['rank']} | {md_escape(r['produto'])} | {r['nicho']} | {md_escape(r['pagina_anunciante'])} | {r['total_resultados_pagina']} | "
-                     f"{r['anuncios_oferta_observados']} ({r['anuncios_oferta_com_duplicatas']}) | {r['criativos_distintos']} | {r['inicio_mais_antigo']} | "
+                     f"{r['anuncios_oferta_com_duplicatas']} | {r['maior_grupo_duplicado']}x | {r['criativos_distintos']} | {r['inicio_mais_antigo']} | "
                      f"{r['pontuacao']} | {r['confianca']} | {md_escape(r['preco_cop'] or '—')} | {links} |")
         L.append('')
         if tier in TIERS[:2]:

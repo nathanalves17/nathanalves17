@@ -65,7 +65,14 @@ def build_offers(page_rec, search_ads_by_page, today=None):
         for a in gads:
             media.update(a.get('media_keys') or [])
         bodies = {re.sub(r'\W+', ' ', C.fold(a.get('body') or ''))[:160] for a in gads if a.get('body')}
-        represented = sum(max(1, a.get('collation_count') or 1) for a in gads)
+        # The Library groups identical ads ("N anuncios usan este contenido"):
+        # collation_count sits on the group's first member and a few other
+        # members may be listed too, so count each group once.
+        groups_ = collections.defaultdict(list)
+        for a in gads:
+            groups_[a.get('collation_id') or a['ad_archive_id']].append(a)
+        group_sizes = [max(len(m), max((x.get('collation_count') or 1) for x in m)) for m in groups_.values()]
+        represented = sum(group_sizes)
         by_rank = sorted(gads, key=lambda a: (a['_slices'].get('all', 999), a['_slices'].get('30d', 999)))
         urls = collections.Counter(clean_url(C.website_url(a)) for a in gads)
         age = (today - date.fromisoformat(oldest)).days if oldest else 0
@@ -80,6 +87,8 @@ def build_offers(page_rec, search_ads_by_page, today=None):
             'ads': gads,
             'n_ads': len(gads),
             'represented_ads': represented,
+            'ad_groups': len(group_sizes),
+            'max_duplicates': max(group_sizes),
             'distinct_creatives': len(media) or len(gads),
             'distinct_copies': len(bodies),
             'oldest_start': oldest,
