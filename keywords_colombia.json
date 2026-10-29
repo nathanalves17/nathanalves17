@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "country": "CO",
+    "ad_type": "all",
+    "search_type": "keyword_exact_phrase",
+    "notes": "Termos-semente (categorias A–J) definidos no briefing. A categoria 'expansao' é preenchida por src/expand_keywords.py a partir de anúncios e páginas reais. O status de cada consulta fica em data/search_log.jsonl."
+  },
+  "categories": {
+    "A_pagamento_contraentrega": [
+      "pago contra entrega", "pago contraentrega", "pago al recibir", "paga al recibir",
+      "paga cuando llegue", "pagas al recibir", "paga cuando recibas", "pago en casa",
+      "contraentrega Colombia", "envío y pago al recibir", "pedido contra entrega",
+      "paga al momento de recibir", "pago en efectivo al recibir", "recibe y paga",
+      "compra con pago contra entrega"
+    ],
+    "B_expressoes_comerciais": [
+      "envíos a toda Colombia", "envío gratis a Colombia", "domicilio gratis", "entrega a domicilio",
+      "pedido fácil", "ordena ahora", "pide el tuyo", "compra segura",
+      "promoción por tiempo limitado", "oferta especial", "descuento especial", "precio de lanzamiento",
+      "paga al recibir en casa", "entrega en toda Colombia", "disponible en Colombia"
+    ],
+    "C_estruturas_oferta": [
+      "lleva 2 paga 1", "2x1", "segunda unidad", "segunda unidad con descuento",
+      "combo especial", "kit de productos", "pack ahorro", "combo x2", "combo x3",
+      "por tiempo limitado", "antes y después", "resultados increíbles", "solución práctica",
+      "nuevo producto", "producto innovador"
+    ],
+    "D_beleza_cuidados": [
+      "serum facial", "crema antiarrugas", "tratamiento capilar", "crecimiento del cabello",
+      "alisado capilar", "maquillaje", "cuidado de la piel", "limpiador facial", "depilación",
+      "perfume", "mascarilla facial", "corrector de ojeras", "cuidado personal", "accesorios de belleza"
+    ],
+    "E_tenis_moda_acessorios": [
+      "tenis deportivos", "tenis para hombre", "tenis para mujer", "zapatos deportivos",
+      "zapatos casuales", "calzado colombiano", "zapatillas", "botas para hombre", "botas para mujer",
+      "ropa deportiva", "chaquetas", "relojes", "gafas de sol", "bolsos para mujer", "carteras",
+      "accesorios de moda", "oferta de tenis"
+    ],
+    "F_cozinha_utilidades": [
+      "utensilios de cocina", "organizador de cocina", "cortador de verduras", "freidora de aire",
+      "olla multifuncional", "selladora de alimentos", "dispensador", "organizador de hogar",
+      "limpieza del hogar", "accesorios para cocina", "herramientas de limpieza",
+      "productos para el hogar", "gadgets para cocina", "soluciones para el hogar"
+    ],
+    "G_tecnologia_gadgets": [
+      "accesorios para celular", "soporte para celular", "cargador inalámbrico", "audífonos inalámbricos",
+      "reloj inteligente", "luz LED", "cámara de seguridad", "mini proyector", "accesorios tecnológicos",
+      "gadgets tecnológicos", "dispositivo portátil", "accesorios para computador"
+    ],
+    "H_automoveis_ferramentas": [
+      "accesorios para carro", "accesorios para moto", "limpiador de tapicería", "soporte para celular carro",
+      "compresor portátil", "herramienta multifuncional", "kit de herramientas", "luces para carro",
+      "organizador de automóvil", "accesorios automotrices"
+    ],
+    "I_fitness_esporte_lazer": [
+      "accesorios fitness", "entrenamiento en casa", "bandas de resistencia", "masajeador muscular",
+      "accesorios deportivos", "botella deportiva", "mochila deportiva", "productos para ejercicio",
+      "equipamiento deportivo"
+    ],
+    "J_casa_pets_outros": [
+      "decoración del hogar", "iluminación decorativa", "organizador de armario", "accesorios para mascotas",
+      "cama para perros", "juguetes para mascotas", "productos para perros", "productos para gatos",
+      "regalos originales", "productos virales", "artículos novedosos", "productos prácticos",
+      "soluciones cotidianas"
+    ],
+    "expansao": []
+  }
+}

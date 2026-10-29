@@ -1,0 +1,7 @@
+node_modules/
+__pycache__/
+*.pyc
+data/*.log
+# rendered landing-page dumps (visible text of third-party sites); evidence is
+# extracted into output/ by src/analyze.py
+data/sites/raw/
