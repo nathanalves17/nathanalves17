@@ -29,7 +29,7 @@ async function load(state, url, source, expectNonZero) {
     // A count of 0 where earlier data proves ads exist is the Library's soft limit.
     if (res.ok && !res.captcha && (res.count > 0 || !expectNonZero)) break;
     if (attempt === 2) break;
-    console.log(`  backoff (ok=${res.ok} count=${res.count})`);
+    console.log(`  backoff (ok=${res.ok} count=${res.count}${res.error ? ' ' + res.error : ''}${res.text ? ' text=' + JSON.stringify(res.text.slice(0, 120)) : ''})`);
     await L.sleep(L.jitter(60000, 90000));
   }
   await L.sleep(L.jitter(10000, 16000));
@@ -67,10 +67,14 @@ async function main() {
     L.appendJsonl(LOG, { page_id: p.page_id, page_name: p.page_name, ok, total: sAll.count, c30: s30.count, c90: rec.slices['90d'] ? rec.slices['90d'].count : null, at: rec.audited_at });
     console.log(`[${n}/${Math.min(pending.length, limit)}] ${p.page_name} (${p.page_id}) total=${sAll.count} 30d+=${s30.count} 90d+=${rec.slices['90d'] ? rec.slices['90d'].count : '-'}`);
     fails = ok ? 0 : fails + 1;
-    if (fails >= 3) {
+    if (fails >= 6) {
+      console.log('6 consecutive failures; stopping run');
+      process.exitCode = 2;
+      break;
+    }
+    if (fails === 3) {
       console.log('3 consecutive failures; cooling down 5 min');
       await L.sleep(300000);
-      fails = 0;
     }
   }
   await browser.close();

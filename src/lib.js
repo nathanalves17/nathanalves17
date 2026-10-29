@@ -137,31 +137,43 @@ async function newContext(browser) {
   return browser.newContext({ locale: 'es-CO', userAgent: UA, viewport: { width: 1366, height: 900 } });
 }
 
+function withTimeout(promise, ms, label) {
+  let timer;
+  const t = new Promise((_, rej) => { timer = setTimeout(() => rej(new Error(`timeout ${ms}ms: ${label}`)), ms); });
+  return Promise.race([promise, t]).finally(() => clearTimeout(timer));
+}
+
 // Loads one Library URL and returns {count, ads, captcha, ok}. "ok" is false
-// when no server-rendered result block is present at all.
+// when no server-rendered result block is present at all. The whole load is
+// capped at 90 s: page.evaluate has no timeout of its own and a stuck renderer
+// would otherwise block the run indefinitely.
 async function fetchLibrary(ctx, url, source) {
   const page = await ctx.newPage();
   try {
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
-    await page.waitForTimeout(2500);
-    let jsons = await page.$$eval('script[type="application/json"]', els => els.map(e => e.textContent));
-    if (!jsons.some(j => j.includes('search_results_connection'))) {
-      await page.waitForTimeout(5000);
-      jsons = await page.$$eval('script[type="application/json"]', els => els.map(e => e.textContent));
-    }
-    for (const j of jsons) {
-      if (!j.includes('search_results_connection')) continue;
-      const o = JSON.parse(j);
-      const conn = findKey(o, 'search_results_connection')[0];
-      const captcha = findKey(o, 'xfb_ad_library_is_captcha_required')[0] === true;
-      const raw = conn.edges.flatMap(e => e.node.collated_results || []);
-      return { ok: true, count: conn.count, captcha, ads: raw.map(a => normalizeAd(a, source)) };
-    }
-    const text = await page.evaluate(() => document.body ? document.body.innerText : '');
-    return { ok: false, count: null, captcha: /captcha|seguridad/i.test(text), ads: [], text: text.slice(0, 500) };
+    return await withTimeout(readLibraryPage(page, url, source), 90000, url);
   } finally {
-    await page.close();
+    await withTimeout(page.close({ runBeforeUnload: false }), 15000, 'page.close').catch(() => {});
   }
+}
+
+async function readLibraryPage(page, url, source) {
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+  await page.waitForTimeout(2500);
+  let jsons = await page.$$eval('script[type="application/json"]', els => els.map(e => e.textContent));
+  if (!jsons.some(j => j.includes('search_results_connection'))) {
+    await page.waitForTimeout(5000);
+    jsons = await page.$$eval('script[type="application/json"]', els => els.map(e => e.textContent));
+  }
+  for (const j of jsons) {
+    if (!j.includes('search_results_connection')) continue;
+    const o = JSON.parse(j);
+    const conn = findKey(o, 'search_results_connection')[0];
+    const captcha = findKey(o, 'xfb_ad_library_is_captcha_required')[0] === true;
+    const raw = conn.edges.flatMap(e => e.node.collated_results || []);
+    return { ok: true, count: conn.count, captcha, ads: raw.map(a => normalizeAd(a, source)) };
+  }
+  const text = await page.evaluate(() => document.body ? document.body.innerText : '');
+  return { ok: false, count: null, captcha: /captcha|seguridad/i.test(text), ads: [], text: text.slice(0, 300) };
 }
 
 function appendJsonl(file, obj) {

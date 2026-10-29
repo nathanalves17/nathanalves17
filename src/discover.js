@@ -60,7 +60,7 @@ async function main() {
       }
       const suspicious = !res.ok || res.captcha || res.count === 0;
       if (!suspicious || attempt >= 2) break;
-      console.log(`  backoff ${job.term} [${job.variant}] (ok=${res.ok} count=${res.count})`);
+      console.log(`  backoff ${job.term} [${job.variant}] (ok=${res.ok} count=${res.count}${res.error ? ' ' + res.error : ''}${res.text ? ' text=' + JSON.stringify(res.text.slice(0, 120)) : ''})`);
       await L.sleep(L.jitter(60000, 90000));
     }
     const status = !res.ok || res.captcha ? 'failed' : res.count === 0 ? 'zero' : 'ok';
@@ -73,10 +73,14 @@ async function main() {
     const pages = new Set(res.ads.map(a => a.page_id)).size;
     console.log(`[${n}/${Math.min(jobs.length, limit)}] ${status} "${job.term}" [${job.variant}] count=${res.count} ads=${res.ads.length} pages=${pages}`);
 
-    if (fails >= 3) {
+    if (fails >= 6) {
+      console.log('6 consecutive failures; stopping run');
+      process.exitCode = 2;
+      break;
+    }
+    if (fails === 3) {
       console.log('3 consecutive failures; cooling down 5 min');
       await L.sleep(300000);
-      fails = 0;
     }
     await L.sleep(L.jitter(10000, 16000));
   }
