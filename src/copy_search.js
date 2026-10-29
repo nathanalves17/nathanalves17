@@ -44,7 +44,7 @@ async function main() {
     const pages = new Set(res.ads.map(a => a.page_id));
     fs.writeFileSync(path.join(OUT, `${q.id}.json`), JSON.stringify({ ...q, url, fetched_at: L.nowIso(), ok: res.ok, count: res.count, ads: res.ads }));
     console.log(`[${n}/${pending.length}] ${q.page_name} | ${q.product} | count=${res.count} pages=${pages.size}`);
-    await L.sleep(L.jitter(10000, 16000));
+    await L.sleep(L.jitter(20000, 30000));
   }
   await browser.close();
 }
