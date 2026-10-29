@@ -38,7 +38,14 @@ async function load(state, url, source, expectNonZero) {
 
 async function main() {
   const queueFile = args.queue || path.join(L.DATA, 'audit_queue.json');
-  const queue = JSON.parse(fs.readFileSync(queueFile, 'utf8'));
+  let queue = JSON.parse(fs.readFileSync(queueFile, 'utf8'));
+  // Pages listed in data/audit_priority.json are audited first.
+  const prioFile = path.join(L.DATA, 'audit_priority.json');
+  if (fs.existsSync(prioFile)) {
+    const prio = JSON.parse(fs.readFileSync(prioFile, 'utf8'));
+    const ids = new Set(prio.map(p => p.page_id));
+    queue = [...prio, ...queue.filter(p => !ids.has(p.page_id))];
+  }
   const limit = args.limit ? Number(args.limit) : Infinity;
   const pending = queue.filter(p => !fs.existsSync(path.join(OUT, `${p.page_id}.json`)));
   console.log(`${pending.length} pages pending of ${queue.length}`);
