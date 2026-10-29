@@ -52,12 +52,25 @@ THIRD_PARTY_BRANDS = ['nike', 'adidas', 'new balance', 'jordan', 'puma', 'vans',
 TIERS = ['Forte candidata a escala', 'Candidata promissora', 'Necessita de verificação', 'Não elegível para o ranking COD']
 
 
-def fmt_cop(v):
+def parse_amount(v):
+    """Parse '79.900,00', '79900.00', '79,900' or 79900 into a number."""
+    t = str(v).strip()
+    if re.fullmatch(r'\d{1,3}(\.\d{3})+(,\d+)?', t):
+        t = t.replace('.', '').replace(',', '.')
+    elif re.fullmatch(r'\d{1,3}(,\d{3})+(\.\d+)?', t):
+        t = t.replace(',', '')
+    else:
+        t = t.replace(',', '.')
     try:
-        n = float(str(v).replace(',', ''))
+        return float(t)
     except ValueError:
         return None
-    if n <= 0:
+
+
+def fmt_cop(v):
+    n = parse_amount(v)
+    # Prices in COP below 1.000 are a parsing artifact, not a real price.
+    if not n or n < 1000:
         return None
     return 'COP ' + f'{int(round(n)):,}'.replace(',', '.')
 
@@ -126,7 +139,7 @@ def site_evidence(site):
             if price:
                 break
     if not price and og.get('og:price:amount') and og.get('og:price:currency', 'COP') == 'COP':
-        price = fmt_cop(og['og:price:amount'].replace('.', '') if re.fullmatch(r'\d{1,3}(\.\d{3})+', og['og:price:amount']) else og['og:price:amount'])
+        price = fmt_cop(og['og:price:amount'])
     if not price and ev['currency'] in (None, 'COP'):
         m = re.search(r'\$\s?(\d{1,3}(?:\.\d{3})+)(?!\d)', text)
         if m:
