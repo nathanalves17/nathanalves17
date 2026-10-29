@@ -16,7 +16,7 @@ MESSAGING_CTAS = {
 }
 MESSAGING_HOSTS = (
     'wa.me', 'api.whatsapp.com', 'whatsapp.com', 'chat.whatsapp.com', 'web.whatsapp.com',
-    'm.me', 'messenger.com', 'ig.me',
+    'm.me', 'messenger.com', 'ig.me', 'wa.link', 'walink.co', 'whatsapp.link', 'wa.msg.link', 'zap.link',
 )
 SOCIAL_HOSTS = ('facebook.com', 'fb.me', 'fb.com', 'instagram.com', 'tiktok.com', 'youtube.com', 'linktr.ee')
 

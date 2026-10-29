@@ -2,7 +2,7 @@
 // own Library view (briefing URL template) in up to three slices:
 //   all  -> total active results in CO + top 30 ads by impressions
 //   30d  -> active ads that started 30+ days ago (count + top 30)
-//   90d  -> active ads that started 90+ days ago, only when 30d count >= 10
+//   90d  -> active ads that started 90+ days ago, only when 30d count >= 20
 // Output: data/raw/pages/<page_id>.json. Resumable.
 //
 // usage: node src/audit_pages.js [--limit N] [--queue data/audit_queue.json]
@@ -56,7 +56,7 @@ async function main() {
       sAll.ads.some(a => a.start_date && a.start_date <= d30) || (p.min_start && p.min_start <= d30));
     rec.slices['30d'] = { url: L.pageUrl(p.page_id, d30), max_start: d30, ok: s30.ok, count: s30.count, ads: s30.ads };
     rec.slices.all = { url: rec.url, ok: sAll.ok, count: sAll.count, ads: sAll.ads };
-    if (s30.ok && s30.count >= 10) {
+    if (s30.ok && s30.count >= 20) {
       const s90 = await load(state, L.pageUrl(p.page_id, d90), { type: 'page', slice: '90d' },
         s30.ads.some(a => a.start_date && a.start_date <= d90));
       rec.slices['90d'] = { url: L.pageUrl(p.page_id, d90), max_start: d90, ok: s90.ok, count: s90.count, ads: s90.ads };

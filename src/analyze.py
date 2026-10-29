@@ -63,7 +63,7 @@ def fmt_cop(v):
 
 
 def site_evidence(site):
-    ev = {'checked': bool(site), 'ok': False, 'level': 'não verificado', 'snippets': [], 'apps': [], 'currency': None,
+    ev = {'checked': bool(site), 'ok': False, 'level': 'não verificado', 'snippets': [], 'apps': [], 'code_snippets': [], 'currency': None,
           'price': None, 'platform': None, 'colombia': False, 'checked_at': None, 'final_url': None, 'name': None, 'reason': None}
     if not site:
         return ev
@@ -73,8 +73,13 @@ def site_evidence(site):
         ev['reason'] = 'erro ao abrir: ' + site['error'].split('\n')[0][:120]
         ev['level'] = 'site inacessível'
         return ev
+    if site.get('status') in (401, 403, 405, 429, 503):
+        ev['reason'] = f'HTTP {site["status"]}: site bloqueou o acesso automatizado (verificar manualmente)'
+        ev['level'] = 'acesso bloqueado'
+        ev['blocked'] = True
+        return ev
     if (site.get('status') or 0) >= 400:
-        ev['reason'] = f'HTTP {site["status"]}'
+        ev['reason'] = f'HTTP {site["status"]}: destino quebrado na verificação'
         ev['level'] = 'site inacessível'
         return ev
     fh = C.host(site.get('final_url') or '')
@@ -90,6 +95,18 @@ def site_evidence(site):
     ev['ok'] = True
     ev['snippets'] = C.cod_snippets(text)
     ev['apps'] = [m for m in site.get('app_markers', []) if m in COD_APPS]
+    # COD wording configured inside the page code (e.g. the COD form app's button
+    # or header), cleaned of JSON/HTML noise.
+    ev['code_snippets'] = []
+    for raw in site.get('cod_html_snippets') or []:
+        clean = re.sub(r'<[^>]+>|\\u[0-9a-f]{4}|[{}\[\]"\\]', ' ', raw)
+        clean = re.sub(r'\b\w+(?:Style|Color|Enabled|Type|Pos|Factor)\b\s*:?', ' ', clean)
+        for snip in C.cod_snippets(clean, width=35, limit=1):
+            snip = re.sub(r'\s*[:,]\s*', ' ', snip).strip()
+            if snip not in ev['code_snippets']:
+                ev['code_snippets'].append(snip)
+    noise = lambda t: len(re.findall(r'rgba|true|false|style|[<>=]|\d{2,}', t))
+    ev['code_snippets'].sort(key=noise)
     ft = C.fold(text)
     ev['colombia'] = bool(C.COLOMBIA_RE.search(ft))
     cur = collections.Counter(re.findall(r'"([A-Z]{3})"', ' '.join(site.get('currency_hints') or [])))
@@ -111,7 +128,7 @@ def site_evidence(site):
     if not price and ev['currency'] in (None, 'COP'):
         m = re.search(r'\$\s?(\d{1,3}(?:\.\d{3})+)(?!\d)', text)
         if m:
-            price = 'COP ' + m.group(1) + ' (texto da página)'
+            price = 'COP ' + m.group(1) + ' (lido do texto da página, conferir)'
     if ev['currency'] not in (None, 'COP'):
         price = None
     ev['price'] = price
@@ -172,6 +189,8 @@ def score_offer(o, page, ev):
 def classify(o, ev, score, cod_doc, cod_partial):
     if not ev['checked']:
         return TIERS[2], 'destino ainda não verificado'
+    if ev.get('blocked'):
+        return TIERS[2], ev['reason']
     if not ev['ok']:
         return TIERS[3], ev['reason'] or ev['level']
     if ev['currency'] not in (None, 'COP') and not ev['colombia']:
@@ -260,7 +279,7 @@ def main():
         for o in offers:
             if o['represented_ads'] < 3 and o['age_days'] < 30:
                 continue
-            site = sites.get(o['url'])
+            site = next((sites[u] for u in o['urls'] if u in sites), None)
             ev = site_evidence(site)
             score, parts, cod_doc, cod_partial = score_offer(o, page, ev)
             tier, reason = classify(o, ev, score, cod_doc, cod_partial)
@@ -270,7 +289,10 @@ def main():
             if ev['snippets']:
                 cod_ev.append('Site: "' + ev['snippets'][0][:160] + '"')
             if ev['apps']:
-                cod_ev.append('App COD no site: ' + ', '.join(ev['apps']))
+                cod_ev.append('Formulário COD instalado no site (' + ', '.join(ev['apps'][:3]) + ')'
+                              + (': "' + ev['code_snippets'][0][:120] + '"' if ev.get('code_snippets') else ''))
+            elif ev.get('code_snippets'):
+                cod_ev.append('Código da página: "' + ev['code_snippets'][0][:120] + '"')
             if o['ad_cod_phrases']:
                 cod_ev.append('Anúncio: ' + ', '.join(o['ad_cod_phrases'][:3]))
             row = {

@@ -76,6 +76,7 @@ def build_offers(page_rec, search_ads_by_page, today=None):
             'key': key,
             'page_id': page_rec['page_id'],
             'url': urls.most_common(1)[0][0],
+            'urls': [u for u, _ in urls.most_common()],
             'ads': gads,
             'n_ads': len(gads),
             'represented_ads': represented,
