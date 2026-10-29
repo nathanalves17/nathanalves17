@@ -11,7 +11,8 @@ import json
 import os
 import re
 import sys
-from datetime import date, datetime
+from datetime import date
+from urllib.parse import unquote
 
 sys.path.insert(0, os.path.dirname(__file__))
 import common as C  # noqa: E402
@@ -171,18 +172,24 @@ def niche_of(text):
     return best
 
 
+GENERIC_TITLE = re.compile(r'(unidades limitadas|ultimas unidades|paga contra entrega|envio gratis|oferta|compra ya|pide ya|\{\{)')
+
+
 def product_name(offer, ev):
     n = ev.get('name')
     if n:
         n = re.split(r'\s+[–|—-]\s+', n)[0].strip()
-        if 3 <= len(n) <= 120 and not re.fullmatch(r'(inicio|home|tienda|shop)', C.fold(n)):
+        if 3 <= len(n) <= 120 and '{{' not in n and not re.fullmatch(r'(inicio|home|tienda|shop)', C.fold(n)):
             return n
-    path = offer['key'].split('/', 3)[-1] if offer['key'].count('/') >= 3 else ''
-    m = re.search(r'products?/([^/]+)', path)
+    m = re.search(r'/products?/([^/?#]+)', offer['key']) or re.search(r'/producto/([^/?#]+)', offer['key'])
     if m:
-        return m.group(1).replace('-', ' ').strip().capitalize()
-    a = offer['ads'][0]
-    return (a.get('title') or a.get('link_description') or C.host(offer['url'])).strip()[:100]
+        handle = re.sub(r'[^\w\s-]', '', unquote(m.group(1)))
+        return re.sub(r'\s+', ' ', handle.replace('-', ' ')).strip().capitalize()
+    for a in offer['ads']:
+        t = (a.get('title') or a.get('link_description') or '').strip()
+        if t and not GENERIC_TITLE.search(C.fold(t)):
+            return t[:100]
+    return C.host(offer['url'])
 
 
 def score_offer(o, page, ev):

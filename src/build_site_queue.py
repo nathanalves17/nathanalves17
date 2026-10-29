@@ -1,5 +1,5 @@
 """Build data/site_queue.json from audited pages: the representative destination
-URL of each page's main offers (up to --per-page, default 6)."""
+URL of each rankable offer of each page (up to --per-page, default 40)."""
 import argparse
 import collections
 import json
@@ -13,7 +13,7 @@ from offers import build_offers  # noqa: E402
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--per-page', type=int, default=6)
+    ap.add_argument('--per-page', type=int, default=40)
     args = ap.parse_args()
     search = collections.defaultdict(list)
     for a in C.load_search_ads():
@@ -21,7 +21,9 @@ def main():
     queue, seen = [], set()
     for pid, rec in C.load_pages().items():
         offers, _, _ = build_offers(rec, search)
-        for o in offers[:args.per_page]:
+        # Same filter analyze.py applies before ranking an offer.
+        ranked = [o for o in offers if o['represented_ads'] >= 3 or o['age_days'] >= 30]
+        for o in ranked[:args.per_page]:
             if o['url'] in seen:
                 continue
             seen.add(o['url'])

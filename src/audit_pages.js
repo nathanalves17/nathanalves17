@@ -5,7 +5,9 @@
 //   90d  -> active ads that started 90+ days ago, only when 30d count >= 20
 // Output: data/raw/pages/<page_id>.json. Resumable.
 //
-// usage: node src/audit_pages.js [--limit N] [--queue data/audit_queue.json]
+// usage: node src/audit_pages.js [--limit N] [--queue data/audit_queue.json] [--recheck 1]
+//   --recheck 1 re-audits pages where a slice came back empty although the
+//   other slices show ads that belong in it (the Library's soft rate limit).
 const fs = require('fs');
 const path = require('path');
 const L = require('./lib');
@@ -36,6 +38,16 @@ async function load(state, url, source, expectNonZero) {
   return res;
 }
 
+function needsRecheck(rec) {
+  const all = rec.slices.all || {}, s30 = rec.slices['30d'] || {};
+  if (!all.ok || !all.count) return true;
+  if (!s30.ok) return true;
+  if (s30.count === 0 && (all.ads || []).some(a => a.start_date && a.start_date <= s30.max_start)) return true;
+  const s90 = rec.slices['90d'];
+  if (s90 && s90.count === 0 && (s30.ads || []).some(a => a.start_date && a.start_date <= s90.max_start)) return true;
+  return false;
+}
+
 async function main() {
   const queueFile = args.queue || path.join(L.DATA, 'audit_queue.json');
   let queue = JSON.parse(fs.readFileSync(queueFile, 'utf8'));
@@ -47,7 +59,10 @@ async function main() {
     queue = [...prio, ...queue.filter(p => !ids.has(p.page_id))];
   }
   const limit = args.limit ? Number(args.limit) : Infinity;
-  const pending = queue.filter(p => !fs.existsSync(path.join(OUT, `${p.page_id}.json`)));
+  const pending = args.recheck
+    ? fs.readdirSync(OUT).map(f => JSON.parse(fs.readFileSync(path.join(OUT, f), 'utf8'))).filter(needsRecheck)
+      .map(r => ({ page_id: r.page_id, page_name: r.page_name }))
+    : queue.filter(p => !fs.existsSync(path.join(OUT, `${p.page_id}.json`)));
   console.log(`${pending.length} pages pending of ${queue.length}`);
 
   const browser = await L.newBrowser();
