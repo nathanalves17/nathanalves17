@@ -1,0 +1,58 @@
+[
+ {
+  "id": "dormia",
+  "product": "Dormia™️ Almohada de Viaje",
+  "product_url": "https://opulenco.es/products/dormia-test",
+  "library_url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&is_targeted_country=false&media_type=all&q=opulenco.es&search_type=keyword_unordered&sort_data[direction]=desc&sort_data[mode]=total_impressions",
+  "country": "ALL",
+  "pais": "Espanha"
+ },
+ {
+  "id": "candado_moto",
+  "product": "Candado Manigueta Aluminio Moto",
+  "product_url": "https://manbru.co/products/candado-manigueta-aluminio-moto",
+  "library_url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=CO&is_targeted_country=false&media_type=all&q=manbru.co&search_type=keyword_unordered&sort_data[mode]=total_impressions&sort_data[direction]=desc",
+  "country": "CO",
+  "pais": "Colômbia"
+ },
+ {
+  "id": "bota_dama",
+  "product": "Bota Explorer Dama™️ + Caja",
+  "product_url": "https://kombishop.com.co/products/botas-dama-greenstride-caja",
+  "library_url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=CO&is_targeted_country=false&media_type=all&q=kombishop.com.co&search_type=keyword_unordered&sort_data[mode]=total_impressions&sort_data[direction]=desc",
+  "country": "CO",
+  "pais": "Colômbia"
+ },
+ {
+  "id": "audifonos",
+  "product": "Audifonos Bluetooth Pantalla Tactil",
+  "product_url": "https://nerushopumx.store/products/audifonos-bluetooth-pantalla-tactil",
+  "library_url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=MX&is_targeted_country=false&media_type=all&q=nerushopumx.store&search_type=keyword_unordered&sort_data[mode]=total_impressions&sort_data[direction]=desc",
+  "country": "MX",
+  "pais": "México"
+ },
+ {
+  "id": "buzo",
+  "product": "Buzo Perfect Fit™️ (pack 3)",
+  "product_url": "https://distritoandino.myshopify.com/products/pack-3-buzos-perfect-fit",
+  "library_url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&is_targeted_country=false&media_type=all&q=distritoandino.myshopify.com&search_type=keyword_unordered&sort_data[direction]=desc&sort_data[mode]=total_impressions",
+  "country": "ALL",
+  "pais": "Colômbia"
+ },
+ {
+  "id": "pistola",
+  "product": "Pistola de Pintura TurboSpray PRO™️",
+  "product_url": "https://mx.tiendatuuno.com/products/pistola-pintura",
+  "library_url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=MX&is_targeted_country=false&media_type=all&q=mx.tiendatuuno.com&search_type=keyword_unordered&sort_data[mode]=total_impressions&sort_data[direction]=desc",
+  "country": "MX",
+  "pais": "México"
+ },
+ {
+  "id": "carpa",
+  "product": "CARPAPRO (carpa 3x3)",
+  "product_url": "https://jpsportaccesorios.com/products/carpa-3x3n",
+  "library_url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=CO&is_targeted_country=false&media_type=all&q=jpsportaccesorios.com&search_type=keyword_unordered&sort_data[mode]=total_impressions&sort_data[direction]=desc",
+  "country": "CO",
+  "pais": "Colômbia"
+ }
+]

@@ -20,9 +20,9 @@ function daysAgo(n, from = new Date()) {
   return d.toISOString().slice(0, 10);
 }
 
-function baseParams() {
+function baseParams(country = 'CO') {
   return [
-    ['active_status', 'active'], ['ad_type', 'all'], ['country', 'CO'],
+    ['active_status', 'active'], ['ad_type', 'all'], ['country', country],
     ['is_targeted_country', 'false'], ['media_type', 'all'],
   ];
 }
@@ -40,12 +40,12 @@ function dateParams(maxDate) {
 }
 
 // Page URL in the exact shape of the briefing template.
-function pageUrl(pageId, maxDate) {
-  return LIB + '?' + encode([...baseParams(), ['search_type', 'page'], ...sortParams(), ...dateParams(maxDate), ['view_all_page_id', String(pageId)]]);
+function pageUrl(pageId, maxDate, country = 'CO') {
+  return LIB + '?' + encode([...baseParams(country), ['search_type', 'page'], ...sortParams(), ...dateParams(maxDate), ['view_all_page_id', String(pageId)]]);
 }
 
-function keywordUrl(q, maxDate) {
-  return LIB + '?' + encode([...baseParams(), ['q', `"${q}"`], ['search_type', 'keyword_exact_phrase'], ...sortParams(), ...dateParams(maxDate)]);
+function keywordUrl(q, maxDate, country = 'CO') {
+  return LIB + '?' + encode([...baseParams(country), ['q', `"${q}"`], ['search_type', 'keyword_exact_phrase'], ...sortParams(), ...dateParams(maxDate)]);
 }
 
 function adUrl(id) {
