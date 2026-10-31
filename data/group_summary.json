@@ -1,0 +1,52 @@
+[
+ {
+  "offer": {
+   "id": "dormia",
+   "product": "Dormia™️ Almohada de Viaje",
+   "product_url": "https://opulenco.es/products/dormia-test",
+   "library_url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&is_targeted_country=false&media_type=all&q=opulenco.es&search_type=keyword_unordered&sort_data[direction]=desc&sort_data[mode]=total_impressions",
+   "country": "ALL",
+   "pais": "Espanha"
+  },
+  "product": {
+   "ads": 13,
+   "groups": 13,
+   "max_dup": 1,
+   "creatives": 13,
+   "oldest": "2026-10-16",
+   "newest": "2026-10-26",
+   "age": 15,
+   "recent": 13,
+   "top_ad": "1106305512321840",
+   "pages": [
+    "Opulenco.es"
+   ]
+  },
+  "store": {
+   "ads": 30,
+   "groups": 30,
+   "max_dup": 1,
+   "creatives": 25,
+   "oldest": "2026-10-15",
+   "newest": "2026-10-26",
+   "age": 16,
+   "recent": 30,
+   "top_ad": "1345357550842548",
+   "pages": [
+    "Opulenco.es"
+   ]
+  },
+  "copy": null,
+  "pages": {
+   "190968237442343": {
+    "all": 41,
+    "30d": 0
+   }
+  },
+  "site": {
+   "level": "documentado no site",
+   "price": "34,99 EUR",
+   "final_url": "https://opulenco.es/products/dormia-test"
+  }
+ }
+]
