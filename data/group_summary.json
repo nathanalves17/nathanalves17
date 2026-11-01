@@ -15,7 +15,7 @@
    "creatives": 13,
    "oldest": "2026-10-16",
    "newest": "2026-10-26",
-   "age": 15,
+   "age": 16,
    "recent": 13,
    "top_ad": "1106305512321840",
    "pages": [
@@ -29,14 +29,18 @@
    "creatives": 25,
    "oldest": "2026-10-15",
    "newest": "2026-10-26",
-   "age": 16,
+   "age": 17,
    "recent": 30,
    "top_ad": "1345357550842548",
    "pages": [
     "Opulenco.es"
    ]
   },
-  "copy": null,
+  "copy": {
+   "copy": "Sin apoyo, la cabeza cae hacia delante y te despiertas",
+   "count": 9,
+   "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&is_targeted_country=false&media_type=all&q=%22Sin%20apoyo%2C%20la%20cabeza%20cae%20hacia%20delante%20y%20te%20despiertas%22&search_type=keyword_exact_phrase&sort_data%5Bdirection%5D=desc&sort_data%5Bmode%5D=total_impressions"
+  },
   "pages": {
    "190968237442343": {
     "all": 41,
@@ -47,6 +51,320 @@
    "level": "documentado no site",
    "price": "34,99 EUR",
    "final_url": "https://opulenco.es/products/dormia-test"
+  }
+ },
+ {
+  "offer": {
+   "id": "candado_moto",
+   "product": "Candado Manigueta Aluminio Moto",
+   "product_url": "https://manbru.co/products/candado-manigueta-aluminio-moto",
+   "library_url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=CO&is_targeted_country=false&media_type=all&q=manbru.co&search_type=keyword_unordered&sort_data[mode]=total_impressions&sort_data[direction]=desc",
+   "country": "CO",
+   "pais": "Colômbia"
+  },
+  "product": {
+   "ads": 0,
+   "groups": 0,
+   "max_dup": 0,
+   "creatives": 0,
+   "oldest": null,
+   "newest": null,
+   "age": 0,
+   "recent": 0,
+   "top_ad": null,
+   "pages": []
+  },
+  "store": {
+   "ads": 40,
+   "groups": 37,
+   "max_dup": 2,
+   "creatives": 39,
+   "oldest": "2026-09-25",
+   "newest": "2026-10-31",
+   "age": 37,
+   "recent": 39,
+   "top_ad": "2320623915339894",
+   "pages": [
+    "Herramientas Brico",
+    "Manbru"
+   ]
+  },
+  "copy": {
+   "copy": "Ya no necesitan robarte la billetera para vaciarte la cuenta.Con",
+   "count": 4,
+   "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=CO&is_targeted_country=false&media_type=all&q=%22Ya%20no%20necesitan%20robarte%20la%20billetera%20para%20vaciarte%20la%20cuenta.Con%22&search_type=keyword_exact_phrase&sort_data%5Bdirection%5D=desc&sort_data%5Bmode%5D=total_impressions"
+  },
+  "pages": {
+   "397669073634653": {
+    "all": 47,
+    "30d": 1
+   },
+   "1153447511181869": {
+    "all": 10,
+    "30d": 0
+   }
+  },
+  "site": {
+   "level": "documentado no site",
+   "price": "COP 94.900",
+   "final_url": "https://manbru.co/products/candado-manigueta-aluminio-moto"
+  }
+ },
+ {
+  "offer": {
+   "id": "bota_dama",
+   "product": "Bota Explorer Dama™️ + Caja",
+   "product_url": "https://kombishop.com.co/products/botas-dama-greenstride-caja",
+   "library_url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=CO&is_targeted_country=false&media_type=all&q=kombishop.com.co&search_type=keyword_unordered&sort_data[mode]=total_impressions&sort_data[direction]=desc",
+   "country": "CO",
+   "pais": "Colômbia"
+  },
+  "product": {
+   "ads": 16,
+   "groups": 7,
+   "max_dup": 5,
+   "creatives": 30,
+   "oldest": "2026-09-19",
+   "newest": "2026-10-16",
+   "age": 43,
+   "recent": 1,
+   "top_ad": "1092491646501276",
+   "pages": [
+    "Kombi Shop"
+   ]
+  },
+  "store": {
+   "ads": 41,
+   "groups": 14,
+   "max_dup": 9,
+   "creatives": 39,
+   "oldest": "2026-08-26",
+   "newest": "2026-10-29",
+   "age": 67,
+   "recent": 10,
+   "top_ad": "1092491646501276",
+   "pages": [
+    "Kombi Shop"
+   ]
+  },
+  "copy": {
+   "copy": "Si te gusta verte bien, pero también sentirte cómoda, estas",
+   "count": 5,
+   "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=CO&is_targeted_country=false&media_type=all&q=%22Si%20te%20gusta%20verte%20bien%2C%20pero%20tambi%C3%A9n%20sentirte%20c%C3%B3moda%2C%20estas%22&search_type=keyword_exact_phrase&sort_data%5Bdirection%5D=desc&sort_data%5Bmode%5D=total_impressions"
+  },
+  "pages": {
+   "117358014589311": {
+    "all": 76,
+    "30d": 23,
+    "90d": 0
+   }
+  },
+  "site": {
+   "level": "documentado no site",
+   "price": "COP 139.900",
+   "final_url": "https://kombishop.com.co/products/botas-dama-greenstride-caja"
+  }
+ },
+ {
+  "offer": {
+   "id": "audifonos",
+   "product": "Audifonos Bluetooth Pantalla Tactil",
+   "product_url": "https://nerushopumx.store/products/audifonos-bluetooth-pantalla-tactil",
+   "library_url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=MX&is_targeted_country=false&media_type=all&q=nerushopumx.store&search_type=keyword_unordered&sort_data[mode]=total_impressions&sort_data[direction]=desc",
+   "country": "MX",
+   "pais": "México"
+  },
+  "product": {
+   "ads": 1,
+   "groups": 1,
+   "max_dup": 1,
+   "creatives": 1,
+   "oldest": "2026-09-04",
+   "newest": "2026-09-04",
+   "age": 58,
+   "recent": 0,
+   "top_ad": "1104531042524651",
+   "pages": [
+    "NeruShopu MX"
+   ]
+  },
+  "store": {
+   "ads": 35,
+   "groups": 28,
+   "max_dup": 2,
+   "creatives": 28,
+   "oldest": "2026-07-05",
+   "newest": "2026-10-14",
+   "age": 119,
+   "recent": 5,
+   "top_ad": "1152024513836889",
+   "pages": [
+    "NeruShopu MX"
+   ]
+  },
+  "copy": {
+   "copy": "El secreto mejor guardado de quienes siempre visten bien sin",
+   "count": 4,
+   "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=MX&is_targeted_country=false&media_type=all&q=%22El%20secreto%20mejor%20guardado%20de%20quienes%20siempre%20visten%20bien%20sin%22&search_type=keyword_exact_phrase&sort_data%5Bdirection%5D=desc&sort_data%5Bmode%5D=total_impressions"
+  },
+  "pages": {
+   "599719366567774": {
+    "all": 97,
+    "30d": 29,
+    "90d": 3
+   }
+  },
+  "site": {
+   "level": "documentado no site",
+   "price": "899.00 MXN",
+   "final_url": "https://nerushopumx.store/products/audifonos-bluetooth-pantalla-tactil"
+  }
+ },
+ {
+  "offer": {
+   "id": "buzo",
+   "product": "Buzo Perfect Fit™️ (pack 3)",
+   "product_url": "https://distritoandino.myshopify.com/products/pack-3-buzos-perfect-fit",
+   "library_url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&is_targeted_country=false&media_type=all&q=distritoandino.myshopify.com&search_type=keyword_unordered&sort_data[direction]=desc&sort_data[mode]=total_impressions",
+   "country": "ALL",
+   "pais": "Colômbia"
+  },
+  "product": {
+   "ads": 0,
+   "groups": 0,
+   "max_dup": 0,
+   "creatives": 0,
+   "oldest": null,
+   "newest": null,
+   "age": 0,
+   "recent": 0,
+   "top_ad": null,
+   "pages": []
+  },
+  "store": {
+   "ads": 17,
+   "groups": 17,
+   "max_dup": 1,
+   "creatives": 16,
+   "oldest": "2026-10-05",
+   "newest": "2026-10-29",
+   "age": 27,
+   "recent": 17,
+   "top_ad": "1447734163949079",
+   "pages": [
+    "Andino"
+   ]
+  },
+  "copy": {
+   "copy": "¡MÁXIMA VISIBILIDAD, PROTECCIÓN CONTRA LA LLUVIA Y PRECIO DE LIQUIDACIÓN!",
+   "count": 6,
+   "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&is_targeted_country=false&media_type=all&q=%22%C2%A1M%C3%81XIMA%20VISIBILIDAD%2C%20PROTECCI%C3%93N%20CONTRA%20LA%20LLUVIA%20Y%20PRECIO%20DE%20LIQUIDACI%C3%93N!%22&search_type=keyword_exact_phrase&sort_data%5Bdirection%5D=desc&sort_data%5Bmode%5D=total_impressions"
+  },
+  "pages": {
+   "1362096260319272": {
+    "all": 17,
+    "30d": 0
+   }
+  },
+  "site": {
+   "level": "documentado no site",
+   "price": "",
+   "final_url": "https://distritoandino.myshopify.com/"
+  }
+ },
+ {
+  "offer": {
+   "id": "pistola",
+   "product": "Pistola de Pintura TurboSpray PRO™️",
+   "product_url": "https://mx.tiendatuuno.com/products/pistola-pintura",
+   "library_url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=MX&is_targeted_country=false&media_type=all&q=mx.tiendatuuno.com&search_type=keyword_unordered&sort_data[mode]=total_impressions&sort_data[direction]=desc",
+   "country": "MX",
+   "pais": "México"
+  },
+  "product": {
+   "ads": 8,
+   "groups": 5,
+   "max_dup": 2,
+   "creatives": 5,
+   "oldest": "2026-09-16",
+   "newest": "2026-10-18",
+   "age": 46,
+   "recent": 7,
+   "top_ad": "3602307696612340",
+   "pages": [
+    "Tuuno México"
+   ]
+  },
+  "store": {
+   "ads": 18,
+   "groups": 10,
+   "max_dup": 2,
+   "creatives": 10,
+   "oldest": "2026-09-16",
+   "newest": "2026-10-31",
+   "age": 46,
+   "recent": 17,
+   "top_ad": "3602307696612340",
+   "pages": [
+    "Tuuno México"
+   ]
+  },
+  "copy": {
+   "copy": "¿Sabías que pintar tu casa con un profesional te puede",
+   "count": 18,
+   "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=MX&is_targeted_country=false&media_type=all&q=%22%C2%BFSab%C3%ADas%20que%20pintar%20tu%20casa%20con%20un%20profesional%20te%20puede%22&search_type=keyword_exact_phrase&sort_data%5Bdirection%5D=desc&sort_data%5Bmode%5D=total_impressions"
+  },
+  "pages": {
+   "1003361166190868": {
+    "all": 23,
+    "30d": 1
+   }
+  },
+  "site": {
+   "level": "documentado no site",
+   "price": "1,299.00 MXN",
+   "final_url": "https://mx.tiendatuuno.com/products/pistola-pintura"
+  }
+ },
+ {
+  "offer": {
+   "id": "carpa",
+   "product": "CARPAPRO (carpa 3x3)",
+   "product_url": "https://jpsportaccesorios.com/products/carpa-3x3n",
+   "library_url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=CO&is_targeted_country=false&media_type=all&q=jpsportaccesorios.com&search_type=keyword_unordered&sort_data[mode]=total_impressions&sort_data[direction]=desc",
+   "country": "CO",
+   "pais": "Colômbia"
+  },
+  "product": {
+   "ads": 0,
+   "groups": 0,
+   "max_dup": 0,
+   "creatives": 0,
+   "oldest": null,
+   "newest": null,
+   "age": 0,
+   "recent": 0,
+   "top_ad": null,
+   "pages": []
+  },
+  "store": {
+   "ads": 0,
+   "groups": 0,
+   "max_dup": 0,
+   "creatives": 0,
+   "oldest": null,
+   "newest": null,
+   "age": 0,
+   "recent": 0,
+   "top_ad": null,
+   "pages": []
+  },
+  "copy": null,
+  "pages": {},
+  "site": {
+   "level": "acesso bloqueado",
+   "price": "",
+   "final_url": "https://jpsportaccesorios.com/products/carpa-3x3n"
   }
  }
 ]
