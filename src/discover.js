@@ -7,7 +7,10 @@
 // answers with an empty result set (its soft rate limit) the script backs off
 // and retries once, then records the search as "zero" for a later re-check.
 //
-// usage: node src/discover.js [--cats A_,B_] [--variants all,30d] [--limit N] [--recheck-zero 1]
+// usage: node src/discover.js [--cats A_,B_] [--variants all,30d] [--limit N] [--recheck-zero 1] [--zero-retry 0]
+//   --zero-retry 0 records a clean zero (result block present, count 0) without the 60-90 s
+//   backoff; use it for a fast first pass over long keyword lists, then re-run with
+//   --recheck-zero 1 to re-check those zeros with the normal backoff.
 const fs = require('fs');
 const path = require('path');
 const L = require('./lib');
@@ -58,7 +61,8 @@ async function main() {
       } catch (e) {
         res = { ok: false, error: String(e).slice(0, 200), ads: [] };
       }
-      const suspicious = !res.ok || res.captcha || res.count === 0;
+      const cleanZero = res.ok && !res.captcha && res.count === 0;
+      const suspicious = !res.ok || res.captcha || (res.count === 0 && !(cleanZero && args['zero-retry'] === '0'));
       if (!suspicious || attempt >= 2) break;
       console.log(`  backoff ${job.term} [${job.variant}] (ok=${res.ok} count=${res.count}${res.error ? ' ' + res.error : ''}${res.text ? ' text=' + JSON.stringify(res.text.slice(0, 120)) : ''})`);
       await L.sleep(L.jitter(60000, 90000));
