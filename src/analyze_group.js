@@ -60,7 +60,7 @@ async function main() {
     const save = () => fs.writeFileSync(file, JSON.stringify(rec));
     const domain = host(o.product_url);
 
-    if (!rec.domain_search || !rec.domain_search.count) {
+    if (!rec.domain_search || !rec.domain_search.ads.length) {
       const r = await load(ctx, o.library_url, { type: 'group_domain', id: o.id }, true);
       rec.domain_search = { url: o.library_url, ok: r.ok, count: r.count, ads: r.ads, fetched_at: L.nowIso() };
       save();
@@ -80,7 +80,7 @@ async function main() {
     rec.main_pages = mainPages;
 
     for (const p of mainPages) {
-      if (rec.pages[p.page_id] && rec.pages[p.page_id].slices.all.count) continue;
+      if (rec.pages[p.page_id] && rec.pages[p.page_id].slices.all.ads.length) continue;
       const d30 = L.daysAgo(30), d90 = L.daysAgo(90);
       const sAll = await load(ctx, L.pageUrl(p.page_id, null, o.country), { type: 'page', slice: 'all' }, true);
       const s30 = await load(ctx, L.pageUrl(p.page_id, d30, o.country), { type: 'page', slice: '30d' },
@@ -99,7 +99,7 @@ async function main() {
       console.log(`${o.id}: página ${p.page_name} total=${sAll.count} 30d+=${s30.count} 90d+=${pr.slices['90d'] ? pr.slices['90d'].count : '-'}`);
     }
 
-    if (!rec.copy_search || !rec.copy_search.count) {
+    if (!rec.copy_search || !rec.copy_search.ads.length) {
       const pool = [...rec.domain_search.ads, ...Object.values(rec.pages).flatMap(p => Object.values(p.slices).flatMap(s => s.ads))];
       const counts = {};
       for (const a of pool) {

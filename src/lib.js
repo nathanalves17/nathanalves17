@@ -184,6 +184,10 @@ async function readLibraryPage(page, url, source) {
     const conn = findKey(o, 'search_results_connection')[0];
     const captcha = findKey(o, 'xfb_ad_library_is_captcha_required')[0] === true;
     const raw = conn.edges.flatMap(e => e.node.collated_results || []);
+    // A positive count with no result rows is another form of the soft limit.
+    if (conn.count > 0 && raw.length === 0) {
+      return { ok: false, count: conn.count, captcha, ads: [], text: 'count without results' };
+    }
     return { ok: true, count: conn.count, captcha, ads: raw.map(a => normalizeAd(a, source)) };
   }
   const text = await page.evaluate(() => document.body ? document.body.innerText : '').catch(e => String(e));
