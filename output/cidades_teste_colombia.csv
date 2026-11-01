@@ -1,0 +1,80 @@
+camada,camada_nome,grupo,departamento,municipio,codigo_dane,pop_urbana_2026,pop_total_2026,swayp
+1,Núcleo,Bogotá e Sabana,Bogotá,Bogotá,11001,7914911,7945996,sim
+1,Núcleo,Bogotá e Sabana,Cundinamarca,Soacha,25754,888398,895878,sim
+1,Núcleo,Bogotá e Sabana,Cundinamarca,Mosquera,25473,182389,185735,não
+1,Núcleo,Bogotá e Sabana,Cundinamarca,Funza,25286,121598,125880,não
+1,Núcleo,Bogotá e Sabana,Cundinamarca,Madrid,25430,139712,146635,não
+1,Núcleo,Bogotá e Sabana,Cundinamarca,Facatativá,25269,157606,168471,sim
+1,Núcleo,Bogotá e Sabana,Cundinamarca,Chía,25175,139448,177550,sim
+1,Núcleo,Bogotá e Sabana,Cundinamarca,Cajicá,25126,79761,126436,sim
+1,Núcleo,Bogotá e Sabana,Cundinamarca,Zipaquirá,25899,134116,169869,sim
+1,Núcleo,Bogotá e Sabana,Cundinamarca,Cota,25214,29333,48798,não
+1,Núcleo,Bogotá e Sabana,Cundinamarca,Sibaté,25740,27027,40496,não
+1,Núcleo,Bogotá e Sabana,Cundinamarca,Tocancipá,25817,23617,50587,não
+1,Núcleo,Bogotá e Sabana,Cundinamarca,Sopó,25758,22576,34015,não
+1,Núcleo,Bogotá e Sabana,Cundinamarca,La Calera,25377,18940,44374,não
+1,Núcleo,Bogotá e Sabana,Cundinamarca,Tenjo,25799,12387,25385,não
+1,Núcleo,Bogotá e Sabana,Cundinamarca,Tabio,25785,8558,23125,não
+1,Núcleo,Medellín e Valle de Aburrá,Antioquia,Medellín,05001,2478217,2526795,sim
+1,Núcleo,Medellín e Valle de Aburrá,Antioquia,Bello,05088,587840,609168,sim
+1,Núcleo,Medellín e Valle de Aburrá,Antioquia,Itagüí,05360,277025,306397,sim
+1,Núcleo,Medellín e Valle de Aburrá,Antioquia,Envigado,05266,257546,268381,sim
+1,Núcleo,Medellín e Valle de Aburrá,Antioquia,Sabaneta,05631,94532,109260,sim
+1,Núcleo,Medellín e Valle de Aburrá,Antioquia,La Estrella,05380,71815,84068,sim
+1,Núcleo,Medellín e Valle de Aburrá,Antioquia,Caldas,05129,70829,89671,sim
+1,Núcleo,Medellín e Valle de Aburrá,Antioquia,Copacabana,05212,73753,92069,não
+1,Núcleo,Medellín e Valle de Aburrá,Antioquia,Girardota,05308,34131,62138,não
+1,Núcleo,Medellín e Valle de Aburrá,Antioquia,Barbosa,05079,27477,64314,não
+1,Núcleo,Cali e região,Valle del Cauca,Cali,76001,2217353,2269983,sim
+1,Núcleo,Cali e região,Valle del Cauca,Jamundí,76364,150381,196875,sim
+1,Núcleo,Cali e região,Valle del Cauca,Palmira,76520,296852,382703,sim
+1,Núcleo,Cali e região,Valle del Cauca,Yumbo,76892,98767,115667,sim
+1,Núcleo,Cali e região,Valle del Cauca,Candelaria,76130,29309,115933,sim
+2,Eixo andino,Oriente antioqueño,Antioquia,Rionegro,05615,98864,156303,sim
+2,Eixo andino,Oriente antioqueño,Antioquia,Marinilla,05440,53581,75558,sim
+2,Eixo andino,Oriente antioqueño,Antioquia,La Ceja,05376,64591,74386,sim
+2,Eixo andino,Oriente antioqueño,Antioquia,Guarne,05318,23576,66158,sim
+2,Eixo andino,Oriente antioqueño,Antioquia,El Carmen de Viboral,05148,42227,70734,sim
+2,Eixo andino,Eje Cafetero,Risaralda,Pereira,66001,409683,487820,sim
+2,Eixo andino,Eje Cafetero,Risaralda,Dosquebradas,66170,234946,246388,sim
+2,Eixo andino,Eje Cafetero,Risaralda,Santa Rosa de Cabal,66682,70752,84054,sim
+2,Eixo andino,Eje Cafetero,Caldas,Manizales,17001,449879,475690,sim
+2,Eixo andino,Eje Cafetero,Caldas,Villamaría,17873,66008,74463,sim
+2,Eixo andino,Eje Cafetero,Quindío,Armenia,63001,298815,307103,sim
+2,Eixo andino,Eje Cafetero,Quindío,Calarcá,63130,57323,74399,não
+2,Eixo andino,Bucaramanga e região,Santander,Bucaramanga,68001,607951,618548,sim
+2,Eixo andino,Bucaramanga e região,Santander,Floridablanca,68276,302462,315194,sim
+2,Eixo andino,Bucaramanga e região,Santander,Girón,68307,157308,177523,sim
+2,Eixo andino,Bucaramanga e região,Santander,Piedecuesta,68547,158430,192888,sim
+2,Eixo andino,Ibagué,Tolima,Ibagué,73001,516862,557317,sim
+2,Eixo andino,Villavicencio,Meta,Villavicencio,50001,541221,588645,sim
+2,Eixo andino,Tunja,Boyacá,Tunja,15001,183278,191372,sim
+2,Eixo andino,Neiva,Huila,Neiva,41001,382081,408218,sim
+2,Eixo andino,Fusagasugá e Girardot,Cundinamarca,Fusagasugá,25290,141800,162844,sim
+2,Eixo andino,Fusagasugá e Girardot,Cundinamarca,Girardot,25307,100704,104326,não
+2,Eixo andino,Centro-norte do Valle,Valle del Cauca,Tuluá,76834,187083,225868,sim
+2,Eixo andino,Centro-norte do Valle,Valle del Cauca,Guadalajara de Buga,76111,114352,132250,sim
+2,Eixo andino,Centro-norte do Valle,Valle del Cauca,Cartago,76147,139614,144206,sim
+2,Eixo andino,Barrancabermeja,Santander,Barrancabermeja,68081,202927,230559,sim
+3,Distantes,Barranquilla e região,Atlántico,Barranquilla,08001,1275180,1275854,sim
+3,Distantes,Barranquilla e região,Atlántico,Soledad,08758,732525,733597,sim
+3,Distantes,Barranquilla e região,Atlántico,Malambo,08433,142759,153223,sim
+3,Distantes,Barranquilla e região,Atlántico,Puerto Colombia,08573,57312,65686,não
+3,Distantes,Barranquilla e região,Atlántico,Galapa,08296,64862,70042,não
+3,Distantes,Cartagena e região,Bolívar,Cartagena de Indias,13001,902411,1010995,sim
+3,Distantes,Cartagena e região,Bolívar,Turbaco,13836,119055,129703,sim
+3,Distantes,Cartagena e região,Bolívar,Arjona,13052,58280,74002,sim
+3,Distantes,Santa Marta e Ciénaga,Magdalena,Santa Marta,47001,526978,588662,sim
+3,Distantes,Santa Marta e Ciénaga,Magdalena,Ciénaga,47189,122730,139759,sim
+3,Distantes,Montería,Córdoba,Montería,23001,458206,585029,sim
+3,Distantes,Sincelejo,Sucre,Sincelejo,70001,294007,331045,sim
+3,Distantes,Valledupar,Cesar,Valledupar,20001,552094,629217,sim
+3,Distantes,Riohacha,La Guajira,Riohacha,44001,155181,211811,sim
+3,Distantes,Cúcuta e região,Norte de Santander,San José de Cúcuta,54001,761043,792180,sim
+3,Distantes,Cúcuta e região,Norte de Santander,Villa del Rosario,54874,123181,127234,não
+3,Distantes,Cúcuta e região,Norte de Santander,Los Patios,54405,101957,104819,não
+3,Distantes,Pasto,Nariño,Pasto,52001,316257,404775,sim
+3,Distantes,Popayán,Cauca,Popayán,19001,291391,355347,sim
+3,Distantes,Buenaventura,Valle del Cauca,Buenaventura,76109,262320,335217,sim
+3,Distantes,Yopal,Casanare,Yopal,85001,171669,198423,sim
+3,Distantes,Florencia,Caquetá,Florencia,18001,165420,188620,sim

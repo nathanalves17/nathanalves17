@@ -1,0 +1,165 @@
+{
+ "fonte": "https://www.swayp.co/co/ (mapa de cobertura, dados do código da página)",
+ "coletado_em": "2026-11-01",
+ "nota": "Lista de localidades como publicada; inclui bairros/corregimentos que não são municípios.",
+ "departamentos": {
+  "Antioquia": [
+   "Apartadó",
+   "Carepa",
+   "Chigorodó",
+   "Caucasia",
+   "El Carmen de Viboral",
+   "Medellín",
+   "Itagüí",
+   "Caldas",
+   "La Estrella",
+   "San Antonio de Prado",
+   "Envigado",
+   "Sabaneta",
+   "Bello",
+   "Rionegro",
+   "La Ceja",
+   "Guarne",
+   "Marinilla"
+  ],
+  "Atlántico": [
+   "Barranquilla",
+   "Malambo",
+   "Soledad"
+  ],
+  "Bolívar": [
+   "Cartagena",
+   "Turbaco",
+   "Arjona"
+  ],
+  "Boyacá": [
+   "Tunja"
+  ],
+  "Cauca": [
+   "Popayán"
+  ],
+  "Caldas": [
+   "Manizales",
+   "Villamaría",
+   "La linda"
+  ],
+  "Cesar": [
+   "Valledupar"
+  ],
+  "Córdoba": [
+   "Montería",
+   "Cereté",
+   "San Bernardo Del Viento"
+  ],
+  "Caquetá": [
+   "Florencia"
+  ],
+  "Casanare": [
+   "Yopal"
+  ],
+  "Cundinamarca": [
+   "Bogotá",
+   "Facatativá",
+   "Fusagasugá",
+   "Arbeláez",
+   "Silvania",
+   "Chinauta",
+   "Pasca",
+   "Chía",
+   "Cajicá",
+   "Zipaquirá",
+   "Cogua",
+   "Soacha"
+  ],
+  "Huila": [
+   "Neiva",
+   "Caguan",
+   "Rivera",
+   "Guacirco",
+   "Palermo",
+   "Riofrio",
+   "El Juncal",
+   "Fortalecillas",
+   "La Ullola"
+  ],
+  "La Guajira": [
+   "Riohacha"
+  ],
+  "Magdalena": [
+   "Ciénaga",
+   "Santa Marta",
+   "Gaira",
+   "Taganga",
+   "Bonda",
+   "Rodadero"
+  ],
+  "Meta": [
+   "Villavicencio"
+  ],
+  "Nariño": [
+   "Pasto",
+   "Ipiales",
+   "Catanbuco",
+   "Jamondino",
+   "Pejesdino",
+   "San Juan de Agonoy",
+   "Obonuco",
+   "Juanoy alto y bajo"
+  ],
+  "Norte de Santander": [
+   "Cúcuta",
+   "Ocaña",
+   "Abrego",
+   "Rio De Oro",
+   "Playa de Belen"
+  ],
+  "Quindío": [
+   "Armenia",
+   "Caucasia",
+   "Malvinas",
+   "Paraguay de Caucasia"
+  ],
+  "Risaralda": [
+   "Pereira",
+   "Dosquebradas",
+   "Santa Rosa De Cabal"
+  ],
+  "Santander": [
+   "Barrancabermeja",
+   "Bucaramanga",
+   "Floridablanca",
+   "Piedecuesta",
+   "Girón",
+   "Pinchote",
+   "Curiti",
+   "Valle De San Jose"
+  ],
+  "Sucre": [
+   "Sincelejo"
+  ],
+  "Tolima": [
+   "Ibagué"
+  ],
+  "Valle del Cauca": [
+   "Buenaventura",
+   "Buga",
+   "Guacari",
+   "Ginebra",
+   "Yotoco",
+   "Cali",
+   "Jamundí",
+   "Palmira",
+   "Candelaria",
+   "Yumbo",
+   "Cartago",
+   "Anserma Nuevo",
+   "Zaragoza",
+   "Obando",
+   "Tuluá",
+   "Ponce",
+   "Sonso",
+   "Quebrada seca",
+   "Zanjohondo"
+  ]
+ }
+}

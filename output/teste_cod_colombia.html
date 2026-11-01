@@ -1,0 +1,484 @@
+<title>Teste COD Colômbia</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: ferramenta de bancada. Entradas numa coluna à esquerda, veredito e gráfico à direita; a aba Cidades é uma lista por camadas. */
+:root {
+  --bg: #f4f6f5;
+  --surface: #ffffff;
+  --ink: #15201c;
+  --ink-2: #4a5551;
+  --muted: #76817d;
+  --line: #dce2df;
+  --line-strong: #c2cac6;
+  --accent: #2346c8;
+  --accent-soft: #e6ebfb;
+  --good: #0ca30c;
+  --good-ink: #006300;
+  --bad: #d03b3b;
+  --bad-ink: #b3261e;
+  --good-soft: #e5f4e5;
+  --bad-soft: #fbe7e6;
+  --zero: #c2cac6;
+  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1312; --surface: #171c1a; --ink: #eef2f0; --ink-2: #b9c2be; --muted: #87918d;
+    --line: #29312e; --line-strong: #3a4440; --accent: #9db1ff; --accent-soft: #1d2540;
+    --good: #0ca30c; --good-ink: #4cc94c; --bad: #d03b3b; --bad-ink: #ff8a80;
+    --good-soft: #13281a; --bad-soft: #2e1716; --zero: #3a4440; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1312; --surface: #171c1a; --ink: #eef2f0; --ink-2: #b9c2be; --muted: #87918d;
+  --line: #29312e; --line-strong: #3a4440; --accent: #9db1ff; --accent-soft: #1d2540;
+  --good: #0ca30c; --good-ink: #4cc94c; --bad: #d03b3b; --bad-ink: #ff8a80;
+  --good-soft: #13281a; --bad-soft: #2e1716; --zero: #3a4440; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 28px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--font-display); font-stretch: 85%; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 800; line-height: 1.05; }
+h2 { font-size: 1.25rem; font-weight: 700; }
+h3 { font-size: 1rem; font-weight: 700; }
+p { margin: 0; }
+.num { font-variant-numeric: tabular-nums; }
+.eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+header.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 24px; margin-bottom: 22px; }
+header.top .lede { color: var(--ink-2); max-width: 60ch; margin-top: 8px; }
+nav.tabs { display: inline-flex; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 4px; gap: 4px; }
+nav.tabs a { text-decoration: none; color: var(--ink-2); font-weight: 600; font-size: 0.92rem; padding: 7px 16px; border-radius: 999px; }
+nav.tabs a[aria-current="page"] { background: var(--ink); color: var(--bg); }
+nav.tabs a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Precificação */
+.grid { display: grid; grid-template-columns: minmax(280px, 340px) minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 860px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+aside.inputs { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 18px; }
+@media (min-width: 861px) { aside.inputs { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); max-height: calc(100vh - 24px); overflow-y: auto; } }
+fieldset { border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+legend { padding: 0; margin-bottom: 4px; }
+.field { display: grid; grid-template-columns: minmax(0, 1fr) 128px; align-items: center; gap: 10px; }
+.field label { font-size: 0.88rem; color: var(--ink-2); line-height: 1.3; }
+.field label small { display: block; color: var(--muted); font-size: 0.76rem; }
+.inp { position: relative; }
+.inp input { width: 100%; font: inherit; font-variant-numeric: tabular-nums; text-align: right; padding: 7px 10px; border: 1px solid var(--line-strong); border-radius: 7px; background: var(--bg); color: var(--ink); }
+.inp.pct input { padding-right: 26px; }
+.inp.pct::after { content: "%"; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; pointer-events: none; }
+.inp.cop input { padding-left: 22px; }
+.inp.cop::before { content: "$"; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.85rem; pointer-events: none; }
+.note { font-size: 0.8rem; color: var(--muted); }
+.btn { font: inherit; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); border-radius: 7px; padding: 7px 12px; cursor: pointer; }
+.btn:hover { border-color: var(--ink-2); }
+
+main.results { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.verdict { border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--line); background: var(--surface); }
+.verdict.ok { background: var(--good-soft); border-color: transparent; }
+.verdict.ko { background: var(--bad-soft); border-color: transparent; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.03em; padding: 3px 10px; border-radius: 999px; width: fit-content; background: var(--surface); }
+.pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+.ok .pill { color: var(--good-ink); } .ok .pill .dot { background: var(--good); }
+.ko .pill { color: var(--bad-ink); } .ko .pill .dot { background: var(--bad); }
+.verdict .big { font-family: var(--font-display); font-stretch: 80%; font-weight: 800; font-size: clamp(1.6rem, 3.4vw, 2.3rem); line-height: 1.1; }
+.verdict .sub { color: var(--ink-2); }
+.kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.kpi { padding: 14px 16px 14px 0; display: flex; flex-direction: column; gap: 4px; }
+.kpi + .kpi { padding-left: 16px; border-left: 1px solid var(--line); }
+.kpi .v { font-family: var(--font-display); font-stretch: 85%; font-weight: 700; font-size: 1.55rem; line-height: 1.1; }
+.kpi .d { font-size: 0.82rem; color: var(--ink-2); }
+@media (max-width: 560px) { .kpis { grid-template-columns: minmax(0, 1fr); } .kpi + .kpi { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); } }
+section.block { display: flex; flex-direction: column; gap: 12px; }
+.block-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 16px; }
+.block-head p { color: var(--ink-2); font-size: 0.88rem; }
+
+.chart { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 14px; overflow-x: auto; }
+.crow { display: grid; grid-template-columns: 74px minmax(160px, 1fr) 96px 124px; align-items: center; gap: 12px; padding: 5px 4px; border-radius: 6px; font-size: 0.88rem; min-width: 520px; }
+.crow.head { color: var(--muted); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+.crow:not(.head):hover { background: var(--bg); }
+.crow .e { font-weight: 600; display: flex; gap: 6px; align-items: center; }
+.tag { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 1px 6px; border-radius: 4px; background: var(--accent-soft); color: var(--accent); }
+.track { position: relative; height: 14px; }
+.track::before { content: ""; position: absolute; left: 50%; top: -5px; bottom: -5px; width: 1px; background: var(--zero); }
+.bar { position: absolute; top: 2px; height: 10px; }
+.bar.pos { left: calc(50% + 1px); background: var(--good); border-radius: 0 4px 4px 0; }
+.bar.neg { right: calc(50% + 1px); background: var(--bad); border-radius: 4px 0 0 4px; }
+.crow .val, .crow .per { text-align: right; font-variant-numeric: tabular-nums; }
+.crow .val.pos { color: var(--good-ink); } .crow .val.neg { color: var(--bad-ink); }
+.crow .per { color: var(--ink-2); }
+.crow.mark { background: var(--bg); }
+
+.cash { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 760px) { .cash { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.cash div { display: flex; flex-direction: column; gap: 2px; padding-top: 10px; border-top: 2px solid var(--line); }
+.cash .v { font-weight: 700; font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+.cash .d { font-size: 0.8rem; color: var(--ink-2); }
+
+.compare { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 20px; }
+@media (max-width: 760px) { .compare { grid-template-columns: minmax(0, 1fr); } }
+.cmp-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.cmp-table th, .cmp-table td { padding: 7px 6px; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; }
+.cmp-table th:first-child, .cmp-table td:first-child { text-align: left; color: var(--ink-2); font-weight: 500; }
+.cmp-table thead th { font-size: 0.74rem; color: var(--muted); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.cmp-table tr.total td { font-weight: 700; color: var(--ink); border-bottom: 0; }
+details.how { border-top: 1px solid var(--line); padding-top: 12px; color: var(--ink-2); font-size: 0.88rem; }
+details.how summary { cursor: pointer; font-weight: 600; color: var(--ink); }
+details.how ul { margin: 10px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+code { font-size: 0.85em; background: var(--bg); padding: 1px 5px; border-radius: 4px; }
+
+/* Cidades */
+.cities { display: flex; flex-direction: column; gap: 26px; }
+.share { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+.srow { display: grid; grid-template-columns: 150px minmax(0, 1fr) 150px; gap: 12px; align-items: center; font-size: 0.9rem; }
+@media (max-width: 600px) { .srow { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+.srow .strack { height: 12px; background: var(--bg); border-radius: 4px; position: relative; }
+.srow .sbar { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 4px 4px 0; }
+.sbar.test { background: var(--accent); } .sbar.later { background: var(--muted); }
+.srow .sv { font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.setup { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 860px) { .setup { grid-template-columns: minmax(0, 1fr); } }
+.setup > div { border-top: 2px solid var(--ink); padding-top: 12px; display: flex; flex-direction: column; gap: 6px; font-size: 0.9rem; color: var(--ink-2); }
+.setup > div.later { border-top-color: var(--muted); }
+.setup strong { color: var(--ink); }
+#share-rows { display: flex; flex-direction: column; gap: 12px; }
+#tiers { display: flex; flex-direction: column; gap: 32px; }
+.tier { display: flex; flex-direction: column; gap: 10px; }
+.tier-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
+.tier-head .meta { color: var(--ink-2); font-size: 0.88rem; }
+.tier-actions { display: flex; align-items: center; gap: 10px; }
+.copied { font-size: 0.8rem; color: var(--good-ink); }
+.tbl-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+table.ct { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 640px; }
+table.ct th, table.ct td { padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
+table.ct tr:last-child td { border-bottom: 0; }
+table.ct th { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+table.ct td.n, table.ct th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+table.ct .muni { color: var(--ink-2); font-size: 0.82rem; }
+.chip { display: inline-block; font-size: 0.74rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--bg); color: var(--ink-2); white-space: nowrap; }
+.chip.full { background: var(--accent-soft); color: var(--accent); }
+.sources { font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; display: flex; flex-direction: column; gap: 4px; }
+.sources a { color: var(--ink-2); }
+@media (prefers-reduced-motion: no-preference) { .bar, .sbar { transition: width 180ms ease; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Contraentrega · Colômbia · valores em COP</div>
+      <h1>Teste COD Colômbia</h1>
+      <p class="lede">Defina o preço olhando para a pior efetividade e escolha as cidades pela velocidade de entrega antes de subir o anúncio.</p>
+    </div>
+    <nav class="tabs" aria-label="Seções">
+      <a href="#precos" id="tab-precos">Precificação</a>
+      <a href="#cidades" id="tab-cidades">Cidades</a>
+    </nav>
+  </header>
+
+  <div id="view-precos">
+    <div class="grid">
+      <aside class="inputs" aria-label="Dados da oferta">
+        <p class="note">Valores de exemplo. Troque pelos números da sua oferta e da Master Shop. O que você digitar fica salvo neste navegador.</p>
+        <fieldset>
+          <legend class="eyebrow">Oferta</legend>
+          <div class="field"><label for="preco">Preço de venda</label><div class="inp cop"><input id="preco" type="number" min="0" step="1000" value="119900"></div></div>
+          <div class="field"><label for="custo">Custo do produto<small>preço do fornecedor</small></label><div class="inp cop"><input id="custo" type="number" min="0" step="500" value="30000"></div></div>
+          <div class="field"><label for="outros">Outros custos por entrega<small>embalagem, app COD, confirmação</small></label><div class="inp cop"><input id="outros" type="number" min="0" step="500" value="2000"></div></div>
+        </fieldset>
+        <fieldset>
+          <legend class="eyebrow">Logística</legend>
+          <div class="field"><label for="frete">Frete por pedido</label><div class="inp cop"><input id="frete" type="number" min="0" step="500" value="25000"></div></div>
+          <div class="field"><label for="devolucao">Custo de um pedido devolvido<small>o que a plataforma cobra quando volta</small></label><div class="inp cop"><input id="devolucao" type="number" min="0" step="500" value="25000"></div></div>
+          <div class="field"><label for="comissao">Comissão sobre o recaudo<small>0 se já vem dentro do frete</small></label><div class="inp pct"><input id="comissao" type="number" min="0" max="50" step="0.5" value="0"></div></div>
+        </fieldset>
+        <fieldset>
+          <legend class="eyebrow">Anúncios</legend>
+          <div class="field"><label for="cpa">CPA<small>custo por pedido gerado no Meta</small></label><div class="inp cop"><input id="cpa" type="number" min="0" step="500" value="18000"></div></div>
+          <div class="field"><label for="despacho">Pedidos despachados<small>passam na confirmação e saem</small></label><div class="inp pct"><input id="despacho" type="number" min="1" max="100" step="1" value="85"></div></div>
+        </fieldset>
+        <fieldset>
+          <legend class="eyebrow">Efetividade de entrega</legend>
+          <div class="field"><label for="pior">Pior cenário</label><div class="inp pct"><input id="pior" type="number" min="1" max="100" step="1" value="60"></div></div>
+          <div class="field"><label for="esperada">Esperada</label><div class="inp pct"><input id="esperada" type="number" min="1" max="100" step="1" value="72"></div></div>
+          <div class="field"><label for="meta">Lucro mínimo por pedido<small>no pior cenário</small></label><div class="inp cop"><input id="meta" type="number" min="0" step="500" value="5000"></div></div>
+        </fieldset>
+        <fieldset>
+          <legend class="eyebrow">Caixa</legend>
+          <div class="field"><label for="pedidosDia">Pedidos por dia</label><div class="inp"><input id="pedidosDia" type="number" min="1" step="1" value="30"></div></div>
+          <div class="field"><label for="ciclo">Dias até o dinheiro voltar<small>entrega + liquidação</small></label><div class="inp"><input id="ciclo" type="number" min="1" step="1" value="8"></div></div>
+        </fieldset>
+        <button class="btn" id="reset" type="button">Voltar aos valores de exemplo</button>
+      </aside>
+
+      <main class="results">
+        <div class="verdict" id="verdict" aria-live="polite">
+          <span class="pill"><span class="dot"></span><span id="v-pill"></span></span>
+          <div class="big num" id="v-big"></div>
+          <p class="sub" id="v-sub"></p>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi"><span class="eyebrow">Efetividade de equilíbrio</span><span class="v num" id="k-be"></span><span class="d">Abaixo disso, cada pedido dá prejuízo.</span></div>
+          <div class="kpi"><span class="eyebrow">CPA máximo</span><span class="v num" id="k-cpa"></span><span class="d" id="k-cpa-d"></span></div>
+          <div class="kpi"><span class="eyebrow">Preço mínimo</span><span class="v num" id="k-preco"></span><span class="d" id="k-preco-d"></span></div>
+        </div>
+
+        <section class="block">
+          <div class="block-head">
+            <h2>Lucro por pedido conforme a efetividade</h2>
+            <p id="chart-note"></p>
+          </div>
+          <div class="chart" id="chart" role="table" aria-label="Lucro por pedido gerado para cada efetividade"></div>
+        </section>
+
+        <section class="block">
+          <div class="block-head">
+            <h2>Caixa</h2>
+            <p>Anúncio é pago na hora; o recaudo volta dias depois.</p>
+          </div>
+          <div class="cash">
+            <div><span class="v" id="c-gasto"></span><span class="d">em anúncios por dia</span></div>
+            <div><span class="v" id="c-capital"></span><span class="d" id="c-capital-d"></span></div>
+            <div><span class="v" id="c-dia"></span><span class="d">lucro por dia na efetividade esperada</span></div>
+            <div><span class="v" id="c-mes"></span><span class="d" id="c-mes-d"></span></div>
+          </div>
+        </section>
+
+        <section class="block">
+          <div class="block-head">
+            <h2>Comparar transportadora</h2>
+            <p>Mesmo produto e mesmo CPA, outra logística.</p>
+          </div>
+          <div class="compare">
+            <fieldset>
+              <legend class="eyebrow">Transportadora rápida (exemplo)</legend>
+              <div class="field"><label for="bFrete">Frete</label><div class="inp cop"><input id="bFrete" type="number" min="0" step="500" value="14000"></div></div>
+              <div class="field"><label for="bDevolucao">Custo da devolução</label><div class="inp cop"><input id="bDevolucao" type="number" min="0" step="500" value="0"></div></div>
+              <div class="field"><label for="bEfetividade">Efetividade</label><div class="inp pct"><input id="bEfetividade" type="number" min="1" max="100" step="1" value="85"></div></div>
+              <p class="note">A Swayp anuncia entrega em até 24h e devolução sem custo; a Sendura, entrega em 24h. Use aqui o que elas confirmarem pra você.</p>
+            </fieldset>
+            <table class="cmp-table">
+              <thead><tr><th></th><th>Atual</th><th>Rápida</th></tr></thead>
+              <tbody id="cmp-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <details class="how">
+          <summary>Como a conta é feita</summary>
+          <ul>
+            <li><strong>Margem por entrega</strong> = preço × (1 − comissão) − produto − frete − outros custos.</li>
+            <li><strong>Lucro por pedido gerado</strong> = despachados × (efetividade × margem − (1 − efetividade) × custo da devolução) − CPA. O CPA conta todo pedido gerado, inclusive os cancelados antes de sair.</li>
+            <li><strong>Efetividade de equilíbrio</strong> = (CPA ÷ despachados + devolução) ÷ (margem + devolução).</li>
+            <li><strong>Preço mínimo</strong>: o menor preço que entrega o lucro mínimo no pior cenário, arredondado para o próximo final ".900".</li>
+            <li><strong>Capital de giro</strong> ≈ gasto diário em anúncios × dias até o dinheiro voltar. É quanto fica preso antes do primeiro recaudo pagar a conta.</li>
+          </ul>
+        </details>
+      </main>
+    </div>
+  </div>
+
+  <div id="view-cidades" hidden>
+    <div class="cities">
+      <section class="share">
+        <div class="block-head">
+          <h2>Quanto da Colômbia cada camada cobre</h2>
+          <p>População 2026: <span class="num" id="pop-total"></span> (projeção DANE)</p>
+        </div>
+        <div id="share-rows"></div>
+      </section>
+
+      <section class="block">
+        <h2>Como subir</h2>
+        <div class="setup">
+          <div><strong>Teste: camadas 1 e 2</strong><span>Um conjunto com essas cidades, cada uma com raio só o suficiente pra pegar a região metropolitana. Nada de "Colômbia inteira menos X".</span><span>Transportadora: na camada 1, divida os pedidos entre Swayp e Inter pra comparar. Na camada 2, deixe o Inteli-Flete escolher entre Envía, Coordinadora e Inter.</span></div>
+          <div class="later"><strong>Depois: camada 3</strong><span>Com produto validado, abra a camada 3 num conjunto separado pra medir a efetividade dela isolada. Fica mais longe dos fornecedores, então são mais dias em trânsito.</span><span>Confirmação por WhatsApp obrigatória antes de despachar.</span></div>
+          <div class="later"><strong>Fora do teste</strong><span>Cidades pequenas e zona rural. Só entram quando a oferta já estiver escalando e você tiver dados de efetividade por cidade da Master Shop.</span><span>Decida por cidade depois de ~30 pedidos em cada uma.</span></div>
+        </div>
+      </section>
+
+      <div id="tiers"></div>
+
+      <div class="sources">
+        <span>Critério: camadas supõem fornecedor despachando de Bogotá, Medellín ou Cali. Se o fornecedor estiver em outra cidade, as camadas mudam.</span>
+        <span>População: <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema/demografia-y-poblacion/proyecciones-de-poblacion" target="_blank" rel="noopener">DANE, projeções municipais 2018–2042 (atualização jul/2025)</a>, ano 2026.</span>
+        <span>Cobertura Swayp: mapa de cobertura de <a href="https://www.swayp.co/co/" target="_blank" rel="noopener">swayp.co</a>, coletado em 01/11/2026.</span>
+        <span>Prazos de referência: <a href="https://envia.co/quality" target="_blank" rel="noopener">Envía, 3º tri 2026</a> (98% local em D+1, 97% nacional em D+2), <a href="https://www.interrapidisimo.com/indicadores-de-servicio" target="_blank" rel="noopener">Inter Rapidísimo 2026</a>, <a href="https://coordinadora.com/documentos-e-informacion/indicadores/" target="_blank" rel="noopener">Coordinadora</a>.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const CITIES = [{"camada": 1, "grupo": "Bogotá e Sabana", "departamento": "Bogotá e Cundinamarca", "municipios": [{"nome": "Bogotá", "pop": 7945996, "swayp": true}, {"nome": "Soacha", "pop": 895878, "swayp": true}, {"nome": "Mosquera", "pop": 185735, "swayp": false}, {"nome": "Funza", "pop": 125880, "swayp": false}, {"nome": "Madrid", "pop": 146635, "swayp": false}, {"nome": "Facatativá", "pop": 168471, "swayp": true}, {"nome": "Chía", "pop": 177550, "swayp": true}, {"nome": "Cajicá", "pop": 126436, "swayp": true}, {"nome": "Zipaquirá", "pop": 169869, "swayp": true}, {"nome": "Cota", "pop": 48798, "swayp": false}, {"nome": "Sibaté", "pop": 40496, "swayp": false}, {"nome": "Tocancipá", "pop": 50587, "swayp": false}, {"nome": "Sopó", "pop": 34015, "swayp": false}, {"nome": "La Calera", "pop": 44374, "swayp": false}, {"nome": "Tenjo", "pop": 25385, "swayp": false}, {"nome": "Tabio", "pop": 23125, "swayp": false}]}, {"camada": 1, "grupo": "Medellín e Valle de Aburrá", "departamento": "Antioquia", "municipios": [{"nome": "Medellín", "pop": 2526795, "swayp": true}, {"nome": "Bello", "pop": 609168, "swayp": true}, {"nome": "Itagüí", "pop": 306397, "swayp": true}, {"nome": "Envigado", "pop": 268381, "swayp": true}, {"nome": "Sabaneta", "pop": 109260, "swayp": true}, {"nome": "La Estrella", "pop": 84068, "swayp": true}, {"nome": "Caldas", "pop": 89671, "swayp": true}, {"nome": "Copacabana", "pop": 92069, "swayp": false}, {"nome": "Girardota", "pop": 62138, "swayp": false}, {"nome": "Barbosa", "pop": 64314, "swayp": false}]}, {"camada": 1, "grupo": "Cali e região", "departamento": "Valle del Cauca", "municipios": [{"nome": "Cali", "pop": 2269983, "swayp": true}, {"nome": "Jamundí", "pop": 196875, "swayp": true}, {"nome": "Palmira", "pop": 382703, "swayp": true}, {"nome": "Yumbo", "pop": 115667, "swayp": true}, {"nome": "Candelaria", "pop": 115933, "swayp": true}]}, {"camada": 2, "grupo": "Oriente antioqueño", "departamento": "Antioquia", "municipios": [{"nome": "Rionegro", "pop": 156303, "swayp": true}, {"nome": "Marinilla", "pop": 75558, "swayp": true}, {"nome": "La Ceja", "pop": 74386, "swayp": true}, {"nome": "Guarne", "pop": 66158, "swayp": true}, {"nome": "El Carmen de Viboral", "pop": 70734, "swayp": true}]}, {"camada": 2, "grupo": "Eje Cafetero", "departamento": "Risaralda e Caldas e Quindío", "municipios": [{"nome": "Pereira", "pop": 487820, "swayp": true}, {"nome": "Dosquebradas", "pop": 246388, "swayp": true}, {"nome": "Santa Rosa de Cabal", "pop": 84054, "swayp": true}, {"nome": "Manizales", "pop": 475690, "swayp": true}, {"nome": "Villamaría", "pop": 74463, "swayp": true}, {"nome": "Armenia", "pop": 307103, "swayp": true}, {"nome": "Calarcá", "pop": 74399, "swayp": false}]}, {"camada": 2, "grupo": "Bucaramanga e região", "departamento": "Santander", "municipios": [{"nome": "Bucaramanga", "pop": 618548, "swayp": true}, {"nome": "Floridablanca", "pop": 315194, "swayp": true}, {"nome": "Girón", "pop": 177523, "swayp": true}, {"nome": "Piedecuesta", "pop": 192888, "swayp": true}]}, {"camada": 2, "grupo": "Ibagué", "departamento": "Tolima", "municipios": [{"nome": "Ibagué", "pop": 557317, "swayp": true}]}, {"camada": 2, "grupo": "Villavicencio", "departamento": "Meta", "municipios": [{"nome": "Villavicencio", "pop": 588645, "swayp": true}]}, {"camada": 2, "grupo": "Tunja", "departamento": "Boyacá", "municipios": [{"nome": "Tunja", "pop": 191372, "swayp": true}]}, {"camada": 2, "grupo": "Neiva", "departamento": "Huila", "municipios": [{"nome": "Neiva", "pop": 408218, "swayp": true}]}, {"camada": 2, "grupo": "Fusagasugá e Girardot", "departamento": "Cundinamarca", "municipios": [{"nome": "Fusagasugá", "pop": 162844, "swayp": true}, {"nome": "Girardot", "pop": 104326, "swayp": false}]}, {"camada": 2, "grupo": "Centro-norte do Valle", "departamento": "Valle del Cauca", "municipios": [{"nome": "Tuluá", "pop": 225868, "swayp": true}, {"nome": "Guadalajara de Buga", "pop": 132250, "swayp": true}, {"nome": "Cartago", "pop": 144206, "swayp": true}]}, {"camada": 2, "grupo": "Barrancabermeja", "departamento": "Santander", "municipios": [{"nome": "Barrancabermeja", "pop": 230559, "swayp": true}]}, {"camada": 3, "grupo": "Barranquilla e região", "departamento": "Atlántico", "municipios": [{"nome": "Barranquilla", "pop": 1275854, "swayp": true}, {"nome": "Soledad", "pop": 733597, "swayp": true}, {"nome": "Malambo", "pop": 153223, "swayp": true}, {"nome": "Puerto Colombia", "pop": 65686, "swayp": false}, {"nome": "Galapa", "pop": 70042, "swayp": false}]}, {"camada": 3, "grupo": "Cartagena e região", "departamento": "Bolívar", "municipios": [{"nome": "Cartagena de Indias", "pop": 1010995, "swayp": true}, {"nome": "Turbaco", "pop": 129703, "swayp": true}, {"nome": "Arjona", "pop": 74002, "swayp": true}]}, {"camada": 3, "grupo": "Santa Marta e Ciénaga", "departamento": "Magdalena", "municipios": [{"nome": "Santa Marta", "pop": 588662, "swayp": true}, {"nome": "Ciénaga", "pop": 139759, "swayp": true}]}, {"camada": 3, "grupo": "Montería", "departamento": "Córdoba", "municipios": [{"nome": "Montería", "pop": 585029, "swayp": true}]}, {"camada": 3, "grupo": "Sincelejo", "departamento": "Sucre", "municipios": [{"nome": "Sincelejo", "pop": 331045, "swayp": true}]}, {"camada": 3, "grupo": "Valledupar", "departamento": "Cesar", "municipios": [{"nome": "Valledupar", "pop": 629217, "swayp": true}]}, {"camada": 3, "grupo": "Riohacha", "departamento": "La Guajira", "municipios": [{"nome": "Riohacha", "pop": 211811, "swayp": true}]}, {"camada": 3, "grupo": "Cúcuta e região", "departamento": "Norte de Santander", "municipios": [{"nome": "San José de Cúcuta", "pop": 792180, "swayp": true}, {"nome": "Villa del Rosario", "pop": 127234, "swayp": false}, {"nome": "Los Patios", "pop": 104819, "swayp": false}]}, {"camada": 3, "grupo": "Pasto", "departamento": "Nariño", "municipios": [{"nome": "Pasto", "pop": 404775, "swayp": true}]}, {"camada": 3, "grupo": "Popayán", "departamento": "Cauca", "municipios": [{"nome": "Popayán", "pop": 355347, "swayp": true}]}, {"camada": 3, "grupo": "Buenaventura", "departamento": "Valle del Cauca", "municipios": [{"nome": "Buenaventura", "pop": 335217, "swayp": true}]}, {"camada": 3, "grupo": "Yopal", "departamento": "Casanare", "municipios": [{"nome": "Yopal", "pop": 198423, "swayp": true}]}, {"camada": 3, "grupo": "Florencia", "departamento": "Caquetá", "municipios": [{"nome": "Florencia", "pop": 188620, "swayp": true}]}];
+const NATIONAL_POP = 53399171;
+
+const IDS = ['preco','custo','outros','frete','devolucao','comissao','cpa','despacho','pior','esperada','meta','pedidosDia','ciclo','bFrete','bDevolucao','bEfetividade'];
+const DEFAULTS = {};
+IDS.forEach(id => { DEFAULTS[id] = document.getElementById(id).value; });
+const STORE_KEY = 'teste-cod-colombia-v1';
+
+const fmt = new Intl.NumberFormat('es-CO', { maximumFractionDigits: 0 });
+const cop = v => (v < 0 ? '−$' : '$') + fmt.format(Math.abs(Math.round(v)));
+const sCop = v => (v > 0 ? '+' : '') + cop(v);
+const pct = v => (v * 100).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + '%';
+
+function read() {
+  const v = {};
+  IDS.forEach(id => { const n = parseFloat(document.getElementById(id).value); v[id] = isFinite(n) ? n : 0; });
+  v.d = Math.max(v.despacho, 1) / 100;
+  v.com = Math.min(Math.max(v.comissao, 0), 99) / 100;
+  v.ew = Math.min(Math.max(v.pior, 0), 100) / 100;
+  v.ee = Math.min(Math.max(v.esperada, 0), 100) / 100;
+  return v;
+}
+const margin = (v, frete) => v.preco * (1 - v.com) - v.custo - (frete ?? v.frete) - v.outros;
+const profit = (v, e, frete, dev) => v.d * (e * margin(v, frete) - (1 - e) * (dev ?? v.devolucao)) - v.cpa;
+const roundPrice = p => Math.ceil((p + 100) / 10000) * 10000 - 100;
+
+function render() {
+  const v = read();
+  const m = margin(v);
+  const pw = profit(v, v.ew), pe = profit(v, v.ee);
+  const denom = m + v.devolucao;
+  const be = denom > 0 ? (v.cpa / v.d + v.devolucao) / denom : Infinity;
+  const cpaMax = v.d * (v.ew * m - (1 - v.ew) * v.devolucao) - v.meta;
+  const pMin = v.ew > 0 ? (((v.meta + v.cpa) / v.d + (1 - v.ew) * v.devolucao) / v.ew + v.custo + v.frete + v.outros) / (1 - v.com) : Infinity;
+
+  const ok = pw >= v.meta;
+  const verdict = document.getElementById('verdict');
+  verdict.className = 'verdict ' + (pw >= 0 ? 'ok' : 'ko');
+  document.getElementById('v-pill').textContent = pw >= 0 ? (ok ? 'Lucro no pior cenário' : 'Lucro abaixo do mínimo') : 'Prejuízo no pior cenário';
+  document.getElementById('v-big').textContent = `Com ${pct(v.ew)} de entrega, cada pedido gerado dá ${sCop(pw)}`;
+  document.getElementById('v-sub').textContent = `Na efetividade esperada (${pct(v.ee)}): ${sCop(pe)} por pedido. Margem por entrega: ${cop(m)}.`;
+
+  document.getElementById('k-be').textContent = isFinite(be) ? (be > 1 ? 'acima de 100%' : pct(be)) : 'não fecha';
+  document.getElementById('k-cpa').textContent = cpaMax > 0 ? cop(cpaMax) : 'nenhum';
+  document.getElementById('k-cpa-d').textContent = `Para lucrar ${cop(v.meta)} por pedido com ${pct(v.ew)} de entrega. Hoje: ${cop(v.cpa)}.`;
+  document.getElementById('k-preco').textContent = isFinite(pMin) && pMin > 0 ? cop(roundPrice(pMin)) : '—';
+  document.getElementById('k-preco-d').textContent = isFinite(pMin) ? `Conta exata ${cop(pMin)}. Hoje você cobra ${cop(v.preco)}.` : '';
+
+  // Gráfico: lucro por pedido para cada efetividade
+  const steps = new Set();
+  for (let e = 40; e <= 95; e += 5) steps.add(e / 100);
+  steps.add(v.ew); steps.add(v.ee);
+  const rows = [...steps].sort((a, b) => a - b).map(e => ({ e, p: profit(v, e) }));
+  const maxAbs = Math.max(1, ...rows.map(r => Math.abs(r.p)));
+  const chart = document.getElementById('chart');
+  chart.innerHTML = '<div class="crow head" role="row"><span role="columnheader">Entrega</span><span role="columnheader">Prejuízo ← → Lucro</span><span role="columnheader" style="text-align:right">Por pedido</span><span role="columnheader" style="text-align:right">Por 100 pedidos</span></div>';
+  rows.forEach(r => {
+    const w = (Math.abs(r.p) / maxAbs) * 50;
+    const isW = Math.abs(r.e - v.ew) < 1e-9, isE = Math.abs(r.e - v.ee) < 1e-9;
+    const tags = (isW ? '<span class="tag">pior</span>' : '') + (isE ? '<span class="tag">esperada</span>' : '');
+    const cls = r.p >= 0 ? 'pos' : 'neg';
+    const row = document.createElement('div');
+    row.className = 'crow' + (isW || isE ? ' mark' : '');
+    row.setAttribute('role', 'row');
+    row.title = `${pct(r.e)} de entrega: ${sCop(r.p)} por pedido gerado, ${sCop(r.p * 100)} a cada 100 pedidos`;
+    row.innerHTML = `<span class="e num" role="cell">${pct(r.e)}${tags}</span><span class="track" role="cell" aria-hidden="true"><span class="bar ${cls}" style="width:${w}%"></span></span><span class="val ${cls}" role="cell">${sCop(r.p)}</span><span class="per" role="cell">${sCop(r.p * 100)}</span>`;
+    chart.appendChild(row);
+  });
+  document.getElementById('chart-note').textContent = isFinite(be) && be <= 1 ? `Empata em ${pct(be)} de entrega.` : 'Não empata em nenhuma efetividade com esses números.';
+
+  // Caixa
+  const gasto = v.pedidosDia * v.cpa;
+  document.getElementById('c-gasto').textContent = cop(gasto);
+  document.getElementById('c-capital').textContent = cop(gasto * v.ciclo);
+  document.getElementById('c-capital-d').textContent = `capital de giro para ${fmt.format(v.ciclo)} dias de ciclo`;
+  document.getElementById('c-dia').textContent = sCop(v.pedidosDia * pe);
+  document.getElementById('c-mes').textContent = sCop(v.pedidosDia * pe * 30);
+  document.getElementById('c-mes-d').textContent = `em 30 dias (pior cenário: ${sCop(v.pedidosDia * pw * 30)})`;
+
+  // Comparação
+  const eb = Math.min(Math.max(v.bEfetividade, 0), 100) / 100;
+  const pa = pe, pb = profit(v, eb, v.bFrete, v.bDevolucao);
+  const lines = [
+    ['Frete', cop(v.frete), cop(v.bFrete)],
+    ['Custo da devolução', cop(v.devolucao), cop(v.bDevolucao)],
+    ['Efetividade', pct(v.ee), pct(eb)],
+    ['Efetividade de equilíbrio', pct(Math.min(be, 9.99)), (() => { const d = margin(v, v.bFrete) + v.bDevolucao; const b = d > 0 ? (v.cpa / v.d + v.bDevolucao) / d : Infinity; return isFinite(b) ? pct(Math.min(b, 9.99)) : '—'; })()],
+    ['Lucro por pedido', sCop(pa), sCop(pb)],
+  ];
+  document.getElementById('cmp-body').innerHTML = lines.map(l => `<tr><td>${l[0]}</td><td>${l[1]}</td><td>${l[2]}</td></tr>`).join('') +
+    `<tr class="total"><td>Diferença a cada 1.000 pedidos</td><td></td><td>${sCop((pb - pa) * 1000)}</td></tr>`;
+
+  try { const s = {}; IDS.forEach(id => s[id] = document.getElementById(id).value); localStorage.setItem(STORE_KEY, JSON.stringify(s)); } catch (e) {}
+}
+
+function restore() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
+    if (s) IDS.forEach(id => { if (s[id] !== undefined && s[id] !== '') document.getElementById(id).value = s[id]; });
+  } catch (e) {}
+}
+
+function renderCities() {
+  document.getElementById('pop-total').textContent = fmt.format(NATIONAL_POP);
+  const tiers = [
+    { n: 1, name: 'Camada 1 · Núcleo', test: true, desc: 'Os três hubs logísticos e suas regiões metropolitanas. Entrega local em D+1 ou D+2 entre hubs; todas as transportadoras operam forte.' },
+    { n: 2, name: 'Camada 2 · Eixo andino', test: true, desc: 'Cidades grandes ligadas por estrada curta aos hubs: Eje Cafetero, Bucaramanga, Ibagué, Villavicencio, Tunja, Neiva, Oriente antioqueño e centro do Valle.' },
+    { n: 3, name: 'Camada 3 · Distantes', test: false, desc: 'Cidades grandes longe dos hubs: Costa Caribe, Cúcuta, sul do país e Llanos. Mais dias em trânsito.' },
+  ];
+  let cum = 0;
+  const share = document.getElementById('share-rows');
+  share.innerHTML = '';
+  tiers.forEach(t => {
+    const pop = CITIES.filter(g => g.camada === t.n).reduce((s, g) => s + g.municipios.reduce((a, m) => a + m.pop, 0), 0);
+    t.pop = pop; cum += pop;
+    const row = document.createElement('div');
+    row.className = 'srow';
+    row.innerHTML = `<span><strong>${t.name.split(' · ')[1]}</strong> <span class="note">camada ${t.n}${t.test ? ', no teste' : ', depois'}</span></span><span class="strack" aria-hidden="true"><span class="sbar ${t.test ? 'test' : 'later'}" style="width:${(pop / NATIONAL_POP) * 100}%"></span></span><span class="sv">${pct(pop / NATIONAL_POP)} · ${(pop / 1e6).toLocaleString('pt-BR', { maximumFractionDigits: 1 })} mi</span>`;
+    share.appendChild(row);
+  });
+  const testPop = tiers[0].pop + tiers[1].pop;
+  const sum = document.createElement('p');
+  sum.className = 'note';
+  sum.textContent = `Camadas 1 e 2 juntas: ${pct(testPop / NATIONAL_POP)} da população em ${CITIES.filter(g => g.camada <= 2).reduce((s, g) => s + g.municipios.length, 0)} municípios. O resto do país (${pct(1 - cum / NATIONAL_POP)}) fica fora do teste.`;
+  share.appendChild(sum);
+
+  const box = document.getElementById('tiers');
+  box.innerHTML = '';
+  tiers.forEach(t => {
+    const groups = CITIES.filter(g => g.camada === t.n);
+    const names = groups.flatMap(g => g.municipios.map(m => m.nome));
+    const sec = document.createElement('section');
+    sec.className = 'tier block';
+    sec.innerHTML = `<div class="tier-head"><div><h2>${t.name}</h2><p class="meta">${t.desc}</p></div><div class="tier-actions"><button class="btn" type="button">Copiar ${names.length} cidades</button><span class="copied" aria-live="polite"></span></div></div>
+      <div class="tbl-wrap"><table class="ct"><thead><tr><th>Região</th><th>Municípios</th><th class="n">População</th><th>Swayp</th></tr></thead><tbody>${groups.map(g => {
+        const pop = g.municipios.reduce((a, m) => a + m.pop, 0);
+        const sw = g.municipios.filter(m => m.swayp).length;
+        const chip = sw === g.municipios.length ? `<span class="chip full">atende todos</span>` : sw === 0 ? `<span class="chip">não atende</span>` : `<span class="chip">${sw} de ${g.municipios.length}</span>`;
+        return `<tr><td><strong>${g.grupo}</strong><div class="note">${g.departamento}</div></td><td class="muni">${g.municipios.map(m => m.nome + (m.swayp ? '' : '*')).join(', ')}</td><td class="n">${fmt.format(pop)}</td><td>${chip}</td></tr>`;
+      }).join('')}</tbody></table></div><p class="note">* fora da cobertura Swayp. População total do município (urbana + rural), 2026.</p>`;
+    const btn = sec.querySelector('button'), msg = sec.querySelector('.copied');
+    btn.addEventListener('click', () => {
+      const text = names.join(', ');
+      const done = () => { msg.textContent = 'Lista copiada'; setTimeout(() => msg.textContent = '', 2500); };
+      const fallback = () => { const ta = document.createElement('textarea'); ta.value = text; sec.appendChild(ta); ta.select(); msg.textContent = 'Selecionado: use Ctrl+C'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+    });
+    box.appendChild(sec);
+  });
+}
+
+function route() {
+  const view = location.hash === '#cidades' ? 'cidades' : 'precos';
+  document.getElementById('view-precos').hidden = view !== 'precos';
+  document.getElementById('view-cidades').hidden = view !== 'cidades';
+  document.getElementById('tab-precos').toggleAttribute('aria-current', view === 'precos');
+  document.getElementById('tab-cidades').toggleAttribute('aria-current', view === 'cidades');
+  if (view === 'precos') document.getElementById('tab-precos').setAttribute('aria-current', 'page'); else document.getElementById('tab-cidades').setAttribute('aria-current', 'page');
+}
+
+restore();
+IDS.forEach(id => document.getElementById(id).addEventListener('input', render));
+document.getElementById('reset').addEventListener('click', () => { IDS.forEach(id => document.getElementById(id).value = DEFAULTS[id]); render(); });
+window.addEventListener('hashchange', route);
+route();
+render();
+renderCities();
+</script>
