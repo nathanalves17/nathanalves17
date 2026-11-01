@@ -11,6 +11,8 @@
 //   --zero-retry 0 records a clean zero (result block present, count 0) without the 60-90 s
 //   backoff; use it for a fast first pass over long keyword lists, then re-run with
 //   --recheck-zero 1 to re-check those zeros with the normal backoff.
+//   --pace slow spaces searches 20-30 s apart (default 10-16 s); use it when the Library
+//   starts answering "count without results" (its soft limit) after many searches.
 const fs = require('fs');
 const path = require('path');
 const L = require('./lib');
@@ -86,7 +88,7 @@ async function main() {
       console.log('3 consecutive failures; cooling down 5 min');
       await L.sleep(300000);
     }
-    await L.sleep(L.jitter(10000, 16000));
+    await L.sleep(args.pace === 'slow' ? L.jitter(20000, 30000) : L.jitter(10000, 16000));
   }
   await browser.close();
 }
