@@ -5,7 +5,8 @@ quantos dos anúncios retornados estão no ar há 30+ e 90+ dias, quantas págin
 a página com mais anúncios, maior duplicação, quantos levam a site (e não só WhatsApp),
 e menção a contraentrega. Só entram anúncios com destino em site (WhatsApp, Messenger e
 redes sociais ficam de fora); "ativos_co" é o contador geral da Biblioteca para a frase.
-Sem preço nem custo: aqui é só escala e links.
+A nota é só escala. Preço citado nos anúncios e preço mínimo de referência entram como informação,
+sem excluir nenhum produto.
 
 Sinal de escala (0-100): ativos no país (até 30) + anúncios de site com 30+ dias (até 30)
 + duplicação (até 15) + páginas com 2+ anúncios de site (até 15) + anúncios de site com 90+ dias (até 10).
@@ -27,6 +28,11 @@ from urllib.parse import urlparse
 from common import DATA, COD_RE, MESSAGING_HOSTS, SOCIAL_HOSTS, fold
 
 TODAY = date(2026, 11, 1)
+PRICE_RE = re.compile(r'\$\s?(\d{2,3}(?:[.,]\d{3})+)')
+# Só para comentário (não entra na nota nem exclui produto): preço mínimo com frete 30k, devolução 30k,
+# CPA 15k, 80% de confirmação, 70% de entrega e lucro de 10k por pedido.
+FREIGHT, RETURN, CPA, PROFIT, CONF, DELIV = 30000, 30000, 15000, 10000, 0.8, 0.7
+OVERHEAD = FREIGHT + ((PROFIT + CPA) / CONF + (1 - DELIV) * RETURN) / DELIV
 
 
 def is_web(url):
@@ -66,6 +72,7 @@ def main():
         best = max(top_ads, key=lambda a: ((a.get('collation_count') or 1), -(TODAY - date.fromisoformat(a['start_date'])).days if a.get('start_date') else 0), default=None)
         oldest = min(ads, key=lambda a: a.get('start_date') or '9999', default=None)
         text = ' '.join((a.get('title') or '') + ' ' + (a.get('body') or '') for a in ads)
+        prices = sorted(v for v in (int(re.sub(r'[.,]', '', m)) for m in PRICE_RE.findall(text)) if 30000 <= v <= 1500000)
         total = rec.get('count') or 0
         n30 = sum(1 for x in ages if x >= 30)
         n90 = sum(1 for x in ages if x >= 90)
@@ -79,6 +86,7 @@ def main():
             'com_30d': n30, 'com_90d': n90,
             'mais_antigo_dias': max(ages) if ages else '', 'paginas': len(pages), 'paginas_2mais': multi,
             'maior_dup': dup, 'cod': 'sim' if COD_RE.search(fold(text)) else 'não',
+            'preco_anuncios': prices[len(prices) // 2] if prices else '',
             'pagina_top': names.get(top_pid, ''), 'link_biblioteca_pagina_top': lib_page(top_pid) if top_pid else '',
             'link_melhor_criativo': f"https://www.facebook.com/ads/library/?id={best['ad_archive_id']}" if best else '',
             'link_anuncio_mais_antigo': f"https://www.facebook.com/ads/library/?id={oldest['ad_archive_id']}" if oldest else '',
@@ -89,9 +97,13 @@ def main():
     out_rows = []
     for r in rows:
         s = stats.get(r['keyword'], {})
-        out_rows.append({**r, **s, 'buscado': 'sim' if s else 'não'})
+        cost = int(r['custo']) if r['custo'].isdigit() else None
+        pmin = round(cost + OVERHEAD) if cost else ''
+        market = s.get('preco_anuncios') if s else ''
+        out_rows.append({**r, **s, 'preco_minimo_ref': pmin,
+                         'folga_vs_mercado': (market - pmin) if market and pmin else '', 'buscado': 'sim' if s else 'não'})
     out_rows.sort(key=lambda r: -(r.get('sinal_escala') or 0))
-    fields = list(out_rows[0].keys())
+    fields = list(dict.fromkeys(k for r in out_rows for k in r))
     for r in out_rows:
         for k in fields:
             r.setdefault(k, '')
@@ -108,7 +120,8 @@ def main():
             continue
         seen.add(r['keyword'])
         print(f"{r['sinal_escala']:5}  {r['keyword'][:30]:30s} ativos={r['ativos_co']:<5} site={r['retornados_site']:<3} 30d+={r['com_30d']:<3} "
-              f"90d+={r['com_90d']:<3} lojas={r['paginas']:<3} lojas2+={r['paginas_2mais']:<2} dup={r['maior_dup']:<3} top={r['pagina_top'][:22]}")
+              f"90d+={r['com_90d']:<3} lojas={r['paginas']:<3} lojas2+={r['paginas_2mais']:<2} dup={r['maior_dup']:<3} top={r['pagina_top'][:22]} "
+              f"| custo={r['custo']} mín={r['preco_minimo_ref']} anúncios={r['preco_anuncios']}")
         if len(seen) >= 40:
             break
     print('->', out)
