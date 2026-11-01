@@ -17,7 +17,10 @@ from common import DATA, MESSAGING_HOSTS, SOCIAL_HOSTS, load_search_ads
 
 MAX = int(sys.argv[1]) if len(sys.argv) > 1 else 14
 TODAY = date(2026, 11, 1)
-SKIP_PAGES = {'Mercado Libre', 'Compensar', 'Shark Home Colombia', 'Black+Decker Hogar Colombia'}  # marcas/varejo, não dropshipping
+# Marcas, varejo, marketplaces e apps que aparecem nas buscas mas não são lojas de dropshipping COD.
+SKIP_PAGES = {'Mercado Libre', 'Compensar', 'Shark Home Colombia', 'Black+Decker Hogar Colombia', 'SHEIN',
+              'SHEIN CURVE', 'TemuColombia', 'Pocket FM Stories', 'Watch Drama Free'}
+SKIP_TERMS = {'chaqueta'}  # termo amplo demais: traz moda de varejo; avaliado à parte
 
 
 def is_web(url):
@@ -30,7 +33,7 @@ def main():
     terms = {t for c, ts in meta['categories'].items() if c.startswith('K_') for t in ts}
     pages = collections.defaultdict(lambda: {'ads': {}, 'terms': set(), 'web': 0, 'max_coll': 1, 'min_start': None, 'name': ''})
     for a in load_search_ads():
-        if a['_query'] not in terms:
+        if a['_query'] not in terms or a['_query'] in SKIP_TERMS:
             continue
         p = pages[a['page_id']]
         p['name'] = a['page_name']

@@ -152,27 +152,5 @@
   "max_collation": 1,
   "min_start": "2026-09-22",
   "days": 40
- },
- {
-  "page_id": "636555679541223",
-  "page_name": "Virtual Store",
-  "terms": [
-   "taladro inalámbrico"
-  ],
-  "ads_seen": 2,
-  "max_collation": 1,
-  "min_start": "2026-09-27",
-  "days": 35
- },
- {
-  "page_id": "224681500736999",
-  "page_name": "Mega Ofertas",
-  "terms": [
-   "picador eléctrico"
-  ],
-  "ads_seen": 2,
-  "max_collation": 3,
-  "min_start": "2026-10-07",
-  "days": 25
  }
 ]
