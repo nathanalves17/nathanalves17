@@ -336,35 +336,48 @@
    "pais": "Colômbia"
   },
   "product": {
-   "ads": 0,
-   "groups": 0,
-   "max_dup": 0,
-   "creatives": 0,
-   "oldest": null,
-   "newest": null,
-   "age": 0,
-   "recent": 0,
-   "top_ad": null,
-   "pages": []
+   "ads": 2,
+   "groups": 2,
+   "max_dup": 1,
+   "creatives": 2,
+   "oldest": "2026-09-29",
+   "newest": "2026-10-26",
+   "age": 33,
+   "recent": 1,
+   "top_ad": "1108086995586906",
+   "pages": [
+    "Jpsport"
+   ]
   },
   "store": {
-   "ads": 0,
-   "groups": 0,
-   "max_dup": 0,
-   "creatives": 0,
-   "oldest": null,
-   "newest": null,
-   "age": 0,
-   "recent": 0,
-   "top_ad": null,
-   "pages": []
+   "ads": 16,
+   "groups": 16,
+   "max_dup": 1,
+   "creatives": 16,
+   "oldest": "2026-09-29",
+   "newest": "2026-10-31",
+   "age": 33,
+   "recent": 13,
+   "top_ad": "1108086995586906",
+   "pages": [
+    "Jpsport"
+   ]
   },
-  "copy": null,
-  "pages": {},
+  "copy": {
+   "copy": "¡NOS ADELANTAMOS AL BLACK FRIDAY!",
+   "count": 52,
+   "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=CO&is_targeted_country=false&media_type=all&q=%22%C2%A1NOS%20ADELANTAMOS%20AL%20BLACK%20FRIDAY!%22&search_type=keyword_exact_phrase&sort_data%5Bdirection%5D=desc&sort_data%5Bmode%5D=total_impressions"
+  },
+  "pages": {
+   "451715348024667": {
+    "all": 16,
+    "30d": 3
+   }
+  },
   "site": {
-   "level": "acesso bloqueado",
+   "level": "site sem conteúdo",
    "price": "",
-   "final_url": "https://jpsportaccesorios.com/products/carpa-3x3n"
+   "final_url": "about:blank"
   }
  }
 ]

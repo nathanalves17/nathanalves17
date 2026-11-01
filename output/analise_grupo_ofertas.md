@@ -10,7 +10,7 @@ Verificado em 01/11/2026 na Biblioteca de Anúncios da Meta, usando o link de ca
 | 4 | Audífonos Bluetooth Pantalla Táctil | México | 6 | 1x | 6 | 18/08/2026 | 19/09/2026 (nada novo depois) | NeruShopu MX: 97 / 29 | 4 | MXN 899 | "PAGA EN CASA" |
 | 5 | Buzo Perfect Fit (pack 3) | Colômbia | 0 no link indicado (link redireciona para a home) | — | — | loja anuncia desde 05/10/2026 | — | Andino: 17 / 0 | 6 (copy da chaqueta reflectiva) | — | "PAGO AL RECIBIR" |
 | 6 | Candado Manigueta Moto | Colômbia | 0 anúncios ativos do cadeado entre os mostrados | — | — | loja anuncia desde 25/09/2026 | — | Manbru: 47 / 1 | 4 | COP 94.900 | "PAGAS AL RECIBIR" |
-| 7 | CARPAPRO (carpa 3x3) | Colômbia | sem dados: a Biblioteca e o site bloquearam o acesso nas tentativas | — | — | — | — | — | — | — | — |
+| 7 | CARPAPRO (carpa 3x3) | Colômbia | 2 | 1x | 2 | 29/09/2026 (33 d) | 26/10/2026 | Jpsport: 16 / 3 | copy genérica de Black Friday (52 anúncios de 12 lojas diferentes) | site não carregou | — |
 
 ## A melhor: Pistola de Pintura TurboSpray PRO (México)
 
@@ -43,7 +43,7 @@ Verificado em 01/11/2026 na Biblioteca de Anúncios da Meta, usando o link de ca
 - **Audífonos:** o fone parou de ganhar anúncio novo em 19/09; a loja hoje empurra relógios Curren.
 - **Buzo Perfect Fit:** o link do produto redireciona para a home e a loja só anuncia desde 05/10; os anúncios atuais são da chaqueta reflectiva.
 - **Candado Moto:** nenhum anúncio ativo do cadeado entre os mostrados; a Manbru está anunciando protetor RFID e roscador.
-- **Carpa:** sem dados por bloqueio de acesso; nova tentativa em andamento.
+- **Carpa:** só 2 anúncios da carpa numa loja com 16 anúncios ativos, sem duplicação; a copy principal é um "¡NOS ADELANTAMOS AL BLACK FRIDAY!" genérico usado por 12 lojas diferentes.
 
 ## Comparação com o que eu já tinha encontrado
 
