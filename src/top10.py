@@ -26,6 +26,8 @@ FIELD = ['picador', 'cortador', 'rallador', 'especier', 'especias', 'robot', 'as
 SEASON = ['olla', 'freidora', 'picador', 'licuadora', 'taladro', 'masajeador', 'aspiradora', 'robot', 'iniciador',
           'bateria', 'perro', 'gato', 'escolar', 'regalo', 'combo', 'kit', 'maleta']
 SIZE = ['talla', 'tenis', 'zapat', 'chaqueta', 'pantal', 'jean', 'vestido', 'brasier', 'leggin', 'camis', 'jump']
+HEALTH = ['tensiometro', 'enfermeria', 'ortoped', 'compresion', 'dolor', 'espolon', 'presion arterial']
+REAL_BRANDS = ['sokany']  # marca real de fabricante: confirmar que o fornecedor vende o original
 BRANDS = ['nike', 'adidas', 'on cloud', 'cloudtilt', 'apple', 'airpods', 'samsung', 'dewalt', 'stanley', 'xiaomi',
           'shark', 'dyson', 'alexa', 'amazon', 'black+decker', 'black & decker']
 BUNDLE = re.compile(r'2\s?x\s?1|x\s?[23]\b|3\s?x\s?2|combo|kit|paquete|juego')
@@ -56,22 +58,28 @@ def main():
             score -= 15; flags.append('tamanho')
         if any(b in name for b in BRANDS):
             score -= 25; flags.append('marca de terceiros')
-        if 'alega' in (r['alertas'] or ''):
-            score -= 10; flags.append('alegação de saúde')
+        if 'alega' in (r['alertas'] or '') or any(k in name for k in HEALTH):
+            score -= 10; flags.append('alegação de saúde / produto de saúde')
+        if any(b in name for b in REAL_BRANDS):
+            score -= 5; flags.append('marca real: confirmar original')
         bundle = bool(BUNDLE.search(name))
-        if price and price < 100000 and not bundle:
-            score -= 10; flags.append('ticket baixo')
-        if not price:
-            flags.append('sem preço')
         max_cost = price - OVERHEAD if price else None
+        if max_cost is not None and max_cost < 15000:
+            score -= 15; flags.append('não fecha a conta' + (' nem com kit' if bundle else ''))
+        if not price:
+            score -= 10; flags.append('sem preço (conferir)')
+        if fold(r['produto']).strip() == fold(r['pagina_anunciante']).strip():
+            score -= 20; flags.append('oferta = loja inteira')
         out.append({**r, 'score_final': round(score, 1), 'flags': flags, 'plus': plus, 'price': price,
                     'max_cost': max_cost, 'bundle': bundle})
     out.sort(key=lambda r: -r['score_final'])
-    top = out[:10]
+    # Fora do top: não fecha a conta, sem preço lido ou anúncio da loja inteira (sem produto definido).
+    top = [r for r in out if not any(f.startswith(('não fecha', 'sem preço', 'oferta = loja')) for f in r['flags'])][:10]
 
     L = ['# Top 10 produtos para o próximo teste COD (Colômbia, nov/2026)', '',
          'Validação: pontuação do pipeline (Biblioteca de Anúncios da Meta, CO). Ajustes: +10 experiência de campo, '
-         '+5 temporada, −15 tamanho, −25 marca de terceiros, −10 alegação de saúde, −10 ticket < 100 mil sem kit.',
+         '+5 temporada, −15 tamanho, −25 marca de terceiros, −10 alegação/produto de saúde, −5 marca real a confirmar. '
+         'Fora do top: oferta que não fecha a conta (nem com kit), sem preço lido ou anúncio da loja inteira.',
          f'Custo máximo no fornecedor = preço − {OVERHEAD:,.0f} (frete 30k, devolução 30k, CPA 15k, 80% confirmação, '
          '70% entrega, lucro 10k por pedido).', '']
     for i, r in enumerate(top, 1):
