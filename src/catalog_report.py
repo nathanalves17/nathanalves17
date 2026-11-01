@@ -8,6 +8,7 @@ redes sociais ficam de fora); "ativos_co" é o contador geral da Biblioteca para
 A nota é só escala. Preço citado nos anúncios e preço mínimo de referência entram como informação,
 sem excluir nenhum produto.
 
+Nota final = sinal de escala + copy (anúncios com a mesma frase até 30, 2 por loja até 10, duplicação até 10).
 Sinal de escala (0-100): ativos no país (até 30) + anúncios de site com 30+ dias (até 30)
 + duplicação (até 15) + páginas com 2+ anúncios de site (até 15) + anúncios de site com 90+ dias (até 10).
 
@@ -93,16 +94,33 @@ def main():
             'link_loja_top': web_url, 'sinal_escala': round(score, 1),
         }
 
+    # Busca por copy (src/catalog_copy_queue.py + src/copy_search.js): quantos anúncios e lojas
+    # repetem a frase de abertura do criativo mais escalado. Entra na nota final.
+    copies = {}
+    for path in glob.glob(os.path.join(DATA, 'raw', 'copy', f'{cat}_*.json')):
+        d = json.load(open(path, encoding='utf-8'))
+        cads = d.get('ads', [])
+        copies[d['product']] = {
+            'copy_frase': d.get('copy', ''), 'copy_anuncios': d.get('count') if d.get('ok') else '',
+            'copy_lojas': len({a['page_id'] for a in cads}) if d.get('ok') else '',
+            'copy_maior_dup': max((a.get('collation_count') or 1 for a in cads), default='') if d.get('ok') else '',
+            'link_busca_copy': d.get('url', ''),
+        }
+
     rows = list(csv.DictReader(open(kw_csv, encoding='utf-8'), delimiter=';'))
     out_rows = []
     for r in rows:
         s = stats.get(r['keyword'], {})
+        c = copies.get(r['keyword'], {})
         cost = int(r['custo']) if r['custo'].isdigit() else None
         pmin = round(cost + OVERHEAD) if cost else ''
         market = s.get('preco_anuncios') if s else ''
-        out_rows.append({**r, **s, 'preco_minimo_ref': pmin,
+        nota = s.get('sinal_escala') or 0
+        if c.get('copy_anuncios') not in (None, ''):
+            nota += min(30, c['copy_anuncios']) + min(10, 2 * (c.get('copy_lojas') or 0)) + min(10, c.get('copy_maior_dup') or 0)
+        out_rows.append({**r, **s, **c, 'nota_final': round(nota, 1) if s else '', 'preco_minimo_ref': pmin,
                          'folga_vs_mercado': (market - pmin) if market and pmin else '', 'buscado': 'sim' if s else 'não'})
-    out_rows.sort(key=lambda r: -(r.get('sinal_escala') or 0))
+    out_rows.sort(key=lambda r: -(r.get('nota_final') or 0))
     fields = list(dict.fromkeys(k for r in out_rows for k in r))
     for r in out_rows:
         for k in fields:
@@ -116,10 +134,10 @@ def main():
     print(f"palavras buscadas: {done} de {len(set(r['keyword'] for r in rows if r['keyword']))}")
     seen = set()
     for r in out_rows:
-        if not r.get('sinal_escala') or r['keyword'] in seen:
+        if not r.get('nota_final') or r['keyword'] in seen:
             continue
         seen.add(r['keyword'])
-        print(f"{r['sinal_escala']:5}  {r['keyword'][:30]:30s} ativos={r['ativos_co']:<5} site={r['retornados_site']:<3} 30d+={r['com_30d']:<3} "
+        print(f"{r['nota_final']:5} (escala {r['sinal_escala']}, copy {r.get('copy_anuncios','')}) {r['keyword'][:30]:30s} ativos={r['ativos_co']:<5} site={r['retornados_site']:<3} 30d+={r['com_30d']:<3} "
               f"90d+={r['com_90d']:<3} lojas={r['paginas']:<3} lojas2+={r['paginas_2mais']:<2} dup={r['maior_dup']:<3} top={r['pagina_top'][:22]} "
               f"| custo={r['custo']} mín={r['preco_minimo_ref']} anúncios={r['preco_anuncios']}")
         if len(seen) >= 40:

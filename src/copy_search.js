@@ -4,7 +4,7 @@
 // Entrada: data/copy_queue.json [{id, page_id, page_name, product, copy}]
 // Saída: data/raw/copy/<id>.json. Retomável.
 //
-// usage: node src/copy_search.js [--limit N]
+// usage: node src/copy_search.js [--limit N] [--queue data/copy_queue.json]
 const fs = require('fs');
 const path = require('path');
 const L = require('./lib');
@@ -18,7 +18,7 @@ const OUT = path.join(L.DATA, 'raw', 'copy');
 fs.mkdirSync(OUT, { recursive: true });
 
 async function main() {
-  const queue = JSON.parse(fs.readFileSync(path.join(L.DATA, 'copy_queue.json'), 'utf8'));
+  const queue = JSON.parse(fs.readFileSync(args.queue || path.join(L.DATA, 'copy_queue.json'), 'utf8'));
   const limit = args.limit ? Number(args.limit) : Infinity;
   const pending = queue.filter(q => !fs.existsSync(path.join(OUT, `${q.id}.json`))).slice(0, limit);
   console.log(`${pending.length} copies pending of ${queue.length}`);
