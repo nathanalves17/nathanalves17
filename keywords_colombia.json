@@ -144,6 +144,16 @@
       "utensilios de cocina", "vacuum terapia", "vaso mezclador", "ventilador de mano", "ventilador de torre", "ventilador doble",
       "ventilador para carro", "ventilador para pestañas", "ventilador personal", "ventilador portátil", "ventilador pulpo", "videocámara",
       "waflera personal", "walkie talkie", "zapatero", "zapatero doble"
+    ],
+    "M_prioritarios_nicol": [
+      "hidrolavadora", "molino de carne", "pistola para pintar", "organizador de ropa", "organizador zapatos", "zapatero",
+      "zapatero doble", "trapero giratorio", "mopa giratoria", "trapero escurridor", "taladro inalambrico", "iniciador de batería",
+      "organizador de ducha", "organizadores de nevera", "parlante para ducha", "tendedero de ropa", "set de ollas", "set de cuchillos",
+      "licuadora portátil", "lavadora portátil", "masajeador de cuello", "pistola de masajes", "parrilla eléctrica", "sartén 3 divisiones",
+      "organizador con ruedas", "trapero", "taladro inalambrica", "capa impermeable", "candado de seguridad", "cepillo one step",
+      "cepillo para cabello", "depiladora facial", "destornillador eléctrico", "estante organizador", "hervidor de huevos", "maquina trituradora",
+      "masajeador", "masajeador eléctrico", "luces led", "alfombra tapete", "calentador de ambiente", "cojín para asiento",
+      "linterna tactica", "martillo multiusos", "limpiador de zapatos"
     ]
   }
 }

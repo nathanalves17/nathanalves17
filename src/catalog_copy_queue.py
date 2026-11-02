@@ -61,7 +61,7 @@ def main():
     ads = {}
     for path in glob.glob(os.path.join(DATA, 'raw', 'search', '*__all.json')):
         d = json.load(open(path, encoding='utf-8'))
-        if d.get('cat') == cat:
+        if d.get('term') in {r['keyword'] for r in rows}:
             ads.setdefault(d['term'], []).extend(d.get('ads', []))
     qpath = os.path.join(DATA, f'copy_queue_{cat}.json')
     queue = json.load(open(qpath, encoding='utf-8')) if os.path.exists(qpath) else []

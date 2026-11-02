@@ -48,16 +48,19 @@ def lib_page(pid):
 
 def main():
     kw_csv, cat = sys.argv[1], sys.argv[2]
+    # Casa por palavra-chave, não por categoria: re-checagens rodam em outra categoria
+    # (ex.: M_prioritarios_nicol) e valem para o mesmo produto.
+    kwset = {r['keyword'] for r in csv.DictReader(open(kw_csv, encoding='utf-8'), delimiter=';') if r['keyword']}
     log = {}
     with open(os.path.join(DATA, 'search_log.jsonl'), encoding='utf-8') as f:
         for line in f:
             r = json.loads(line)
-            if r.get('cat') == cat and r.get('variant') == 'all':
+            if r.get('variant') == 'all' and r.get('term') in kwset:
                 log[r['term']] = r  # o último registro vale (re-checagens)
     ads_by_term = collections.defaultdict(dict)
     for path in glob.glob(os.path.join(DATA, 'raw', 'search', '*__all.json')):
         d = json.load(open(path, encoding='utf-8'))
-        if d.get('cat') == cat:
+        if d.get('term') in kwset:
             for a in d.get('ads', []):
                 ads_by_term[d['term']][a['ad_archive_id']] = a
 
