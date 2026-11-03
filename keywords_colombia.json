@@ -154,6 +154,9 @@
       "cepillo para cabello", "depiladora facial", "destornillador eléctrico", "estante organizador", "hervidor de huevos", "maquina trituradora",
       "masajeador", "masajeador eléctrico", "luces led", "alfombra tapete", "calentador de ambiente", "cojín para asiento",
       "linterna tactica", "martillo multiusos", "limpiador de zapatos"
+    ],
+    "N_picador_variantes": [
+      "molino picador", "picadora eléctrica", "picador de alimentos", "procesador de alimentos", "triturador de alimentos", "picador de carne"
     ]
   }
 }
