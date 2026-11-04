@@ -1,0 +1,125 @@
+{%- comment -%}
+  Barra de Black Friday para o topo da página (feita para celular).
+
+  Onde colar: Loja virtual > Temas > Personalizar > Cabeçalho > Adicionar seção >
+  "Liquid personalizado" (Custom Liquid). Arraste para cima do cabeçalho e oculte a
+  barra antiga ("LANZAMIENTO 50% OFF") e o letreiro "96% RECIBE EN 72H".
+
+  Edite só o bloco abaixo. Horários da Colômbia (UTC-5).
+  - Antes de 27/11: "BLACK FRIDAY ADELANTADO" + contagem até o fim real da oferta.
+  - 27/11: "HOY ES BLACK FRIDAY"; 28 e 29/11: "BLACK WEEKEND"; 30/11: "CYBER MONDAY".
+  - Depois do fim: a contagem some e o letreiro troca para as mensagens de "depois".
+    Nesse dia, tire também o "Black Friday" do kit no formulário.
+  Para ver uma fase antes da hora, abra a página com ?bfbar_now=2026-11-27T10:00 no fim do link.
+{%- endcomment -%}
+{%- liquid
+  assign fim = '2026-11-30T23:59:59-05:00'
+  assign dia_bf = '2026-11-27T00:00:00-05:00'
+  assign dia_weekend = '2026-11-28T00:00:00-05:00'
+  assign dia_cyber = '2026-11-30T00:00:00-05:00'
+
+  assign rotulo_antes = 'BLACK FRIDAY ADELANTADO'
+  assign rotulo_bf = 'HOY ES BLACK FRIDAY'
+  assign rotulo_weekend = 'BLACK WEEKEND'
+  assign rotulo_cyber = 'CYBER MONDAY · ÚLTIMO DÍA'
+
+  assign mensagens = 'Lleva 2 por $180.000 y ahorra $49.800|Pagas al recibir|Envío gratis|Oferta válida hasta el 30 de noviembre' | split: '|'
+  assign mensagens_depois = 'Pagas al recibir|Envío gratis a toda Colombia' | split: '|'
+
+  assign alvo = 'form[action*="/cart/add"], [name="add"], .product-form'
+-%}
+<div class="bfbar" data-end="{{ fim }}" data-target="{{ alvo | escape }}"
+  data-phases="{{ dia_bf }}|{{ rotulo_bf | escape }}||{{ dia_weekend }}|{{ rotulo_weekend | escape }}||{{ dia_cyber }}|{{ rotulo_cyber | escape }}">
+  <a class="bfbar__top" href="#" aria-label="Ver la oferta">
+    <span class="bfbar__label">{{ rotulo_antes | escape }}</span>
+    <span class="bfbar__timer">
+      <span class="bfbar__pre">termina en</span>
+      <span class="bfbar__d"><b data-u="d">--</b><i>d</i></span>
+      <b data-u="h">--</b><i>:</i><b data-u="m">--</b><i>:</i><b data-u="s">--</b>
+    </span>
+  </a>
+  {%- for lista in (1..2) -%}
+    {%- if lista == 1 -%}{%- assign itens = mensagens -%}{%- assign cls = 'bfbar__run--on' -%}{%- else -%}{%- assign itens = mensagens_depois -%}{%- assign cls = 'bfbar__run--off' -%}{%- endif -%}
+    <div class="bfbar__run {{ cls }}">
+      <div class="bfbar__track">
+        {%- for copia in (1..4) -%}
+          <span class="bfbar__group"{% if copia > 1 %} aria-hidden="true"{% endif %}>
+            {%- for m in itens -%}<span>{{ m | escape }}</span>{%- endfor -%}
+          </span>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
+
+<style>
+  .bfbar{--bf-bg:#0b0b0b;--bf-acc:#ff5a1f;--bf-txt:#fff;font-family:inherit;line-height:1.2;position:relative;z-index:5}
+  .bfbar *{box-sizing:border-box}
+  .bfbar__top{display:flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 10px;
+    background:var(--bf-bg);color:var(--bf-txt);text-decoration:none;flex-wrap:nowrap;overflow:hidden}
+  .bfbar__label{font-weight:800;font-size:12.5px;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .bfbar__timer{display:inline-flex;align-items:center;gap:2px;font-variant-numeric:tabular-nums;white-space:nowrap;flex-shrink:0}
+  .bfbar__pre{font-size:11px;opacity:.75;margin-right:3px}
+  .bfbar__timer b{display:inline-block;min-width:22px;padding:3px 3px;border-radius:4px;background:var(--bf-acc);
+    color:#fff;font-size:12.5px;font-weight:800;text-align:center}
+  .bfbar__timer i{font-style:normal;font-weight:800;font-size:12px;color:var(--bf-acc)}
+  .bfbar__d{display:inline-flex;align-items:center;gap:2px;margin-right:4px}
+  .bfbar.is-short .bfbar__d{display:none}
+  .bfbar__run{overflow:hidden;background:var(--bf-acc);color:#fff;height:30px;display:flex;align-items:center}
+  .bfbar__run--off,.bfbar.is-over .bfbar__run--on,.bfbar.is-over .bfbar__top{display:none}
+  .bfbar.is-over .bfbar__run--off{display:flex}
+  .bfbar__track{display:flex;width:max-content;animation:bfbar-move 36s linear infinite}
+  .bfbar__group{display:flex;flex-shrink:0}
+  .bfbar__group span{font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;padding:0 14px}
+  .bfbar__group span::after{content:"✦";margin-left:28px;opacity:.8}
+  @keyframes bfbar-move{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (max-width:479px){.bfbar__pre{display:none}}
+  @media (max-width:359px){.bfbar__label{font-size:11px;letter-spacing:.01em}}
+  @media (prefers-reduced-motion:reduce){.bfbar__track{animation:none}}
+</style>
+
+<script>
+(function () {
+  var q = new URLSearchParams(location.search).get('bfbar_now');
+  var shift = 0;
+  if (q) { var t = Date.parse(/[zZ]|[+-]\d\d:\d\d$/.test(q) ? q : q + '-05:00'); if (!isNaN(t)) shift = t - Date.now(); }
+  function now() { return Date.now() + shift; }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  document.querySelectorAll('.bfbar:not([data-ready])').forEach(function (el) {
+    el.setAttribute('data-ready', '1');
+    var end = Date.parse(el.getAttribute('data-end'));
+    var label = el.querySelector('.bfbar__label');
+    var base = label.textContent;
+    var phases = el.getAttribute('data-phases').split('||').map(function (p) {
+      var x = p.split('|'); return { at: Date.parse(x[0]), text: x[1] };
+    });
+    var u = {};
+    el.querySelectorAll('[data-u]').forEach(function (b) { u[b.getAttribute('data-u')] = b; });
+
+    el.querySelector('.bfbar__top').addEventListener('click', function (e) {
+      e.preventDefault();
+      var sel = el.getAttribute('data-target');
+      var t = sel && document.querySelector(sel);
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    function tick() {
+      var n = now(), left = end - n;
+      if (isNaN(end) || left <= 0) { el.classList.add('is-over'); return; }
+      var text = base;
+      phases.forEach(function (p) { if (n >= p.at) text = p.text; });
+      if (label.textContent !== text) label.textContent = text;
+      var s = Math.floor(left / 1000);
+      var d = Math.floor(s / 86400);
+      el.classList.toggle('is-short', d === 0);
+      u.d.textContent = d;
+      u.h.textContent = pad(Math.floor(s % 86400 / 3600));
+      u.m.textContent = pad(Math.floor(s % 3600 / 60));
+      u.s.textContent = pad(s % 60);
+      setTimeout(tick, 1000 - (n % 1000) + 5);
+    }
+    tick();
+  });
+})();
+</script>
