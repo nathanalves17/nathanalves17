@@ -86,3 +86,8 @@ navideñas (696 anúncios, ticket baixo).
 Critérios para qualquer produto novo: fornecedor ouro com despacho em até 24–30 h, de preferência na mesma
 cidade do público; margem por entregue de pelo menos ~60 mil COP; sem marca de terceiros; sem promessa de saúde;
 efeito "uau" em vídeo; empate com no máximo ~45% de entrega no CPA esperado.
+
+Tênis sem marca (para trocar a réplica): "tenis para hombre" 48 ativos, 22 anúncios de site, 12 com 30+ dias,
+11 lojas (5 com 2+ anúncios); "zapatillas deportivas" 132 ativos, 11 lojas; "tenis para mujer" 54 ativos, 15 lojas.
+Há mercado para tênis genérico, mas a disputa inclui varejo grande (Pilatos, Bata) e Temu.
+Detalhe por termo: `data/catalogos/temporada_dic2026_resultado.csv`.

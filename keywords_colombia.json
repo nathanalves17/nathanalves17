@@ -157,6 +157,9 @@
     ],
     "N_picador_variantes": [
       "molino picador", "picadora eléctrica", "picador de alimentos", "procesador de alimentos", "triturador de alimentos", "picador de carne"
+    ],
+    "O_temporada_dic2026": [
+      "parlante karaoke", "micrófono karaoke", "mini proyector", "proyector portátil", "cepillo secador", "plancha alisadora", "masajeador de cuello", "pistola de masaje", "aspiradora inalámbrica", "carro a control remoto", "luces navideñas", "reloj inteligente", "proyector galaxia", "cámara de seguridad wifi", "freidora de aire", "tenis para mujer", "tenis para hombre", "zapatillas deportivas"
     ]
   }
 }
