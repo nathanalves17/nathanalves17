@@ -5,3 +5,6 @@ data/*.log
 # rendered landing-page dumps (visible text of third-party sites); evidence is
 # extracted into output/ by src/analyze.py
 data/sites/raw/
+
+# Listas de leads do Google Maps: ficam fora do repositório público
+agencia-eua/leads/
