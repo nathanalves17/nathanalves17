@@ -33,7 +33,9 @@ a rotina dele.
   e ferramentas que já existem (LeadLens e pipeline da Biblioteca de Anúncios).
 - `01-pesquisa-de-mercado.md`: dados de mercado, nichos, custo de lead, GHL, riscos,
   oferta sugerida e fontes.
-- Próximo: `02-curso.md`, com o resumo do curso que o Nathan vai mandar.
+- `02-mapa-cidades.md`: onde estão os brasileiros, por consulado (Itamaraty) e por cidade
+  (Census), com as praças prioritárias para home services.
+- Próximo: `03-curso.md`, com o resumo do curso que o Nathan vai mandar.
 
 ## Em aberto (perguntar ao Nathan)
 
