@@ -19,6 +19,8 @@ const DEFAULT_TERMS = [
   'pintura residencial', 'telhado', 'construção e reforma', 'serviços de construção',
   'brasileiros em', 'comunidade brasileira', 'para brasileiros nos', 'aqui nos EUA',
   'agende sua avaliação', 'chame no whatsapp', 'faça seu orçamento', 'mão de obra',
+  'orçamento', 'brasileira', 'atendimento em português', 'limpeza', 'pintura', 'reforma',
+  'construção', 'sem compromisso',
 ];
 
 const OUT_DIR = path.join(L.DATA, 'eua');
@@ -46,7 +48,8 @@ async function main() {
     for (const ad of res.ads) L.appendJsonl(ADS, { term, ...ad });
     L.appendJsonl(LOG, { term, status, count: res.count ?? null, rows: res.ads.length, at: L.nowIso() });
     console.log(`${status.padEnd(6)} ${String(res.count ?? '-').padStart(6)} total, ${res.ads.length} rows  "${term}"`);
-    await L.sleep(L.jitter(10000, 16000));
+    // --pace slow waits longer between searches, for runs that hit the Library soft limit.
+    await L.sleep(args.pace === 'slow' ? L.jitter(25000, 40000) : L.jitter(10000, 16000));
   }
   await browser.close();
 }
