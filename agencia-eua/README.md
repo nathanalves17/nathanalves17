@@ -28,8 +28,12 @@ a rotina dele.
 
 ## Arquivos
 
+- `00-historico.md`: decisões das conversas anteriores (set/out 2026): ligação perdida como
+  porta de entrada, arbitragem de mão de obra, preço de entrada de US$ 600–800, plano de 30 DMs
+  e ferramentas que já existem (LeadLens e pipeline da Biblioteca de Anúncios).
 - `01-pesquisa-de-mercado.md`: dados de mercado, nichos, custo de lead, GHL, riscos,
   oferta sugerida e fontes.
+- Próximo: `02-curso.md`, com o resumo do curso que o Nathan vai mandar.
 
 ## Em aberto (perguntar ao Nathan)
 
