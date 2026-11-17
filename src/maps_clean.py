@@ -103,6 +103,8 @@ def main():
         if only_no_site and card["website"]:
             drop("tem site"); continue
         br = BR_WORDS.search(norm(card["name"]))
+        signal = ("sim" if br and re.search(r"brazil|brasil|limpeza|faxina", br.group(0), re.I)
+                  else "talvez" if br or re.search(r"brazil", card["term"], re.I) else "")
         rows.append({
             "nome": card["name"],
             "telefone": phone,
@@ -110,7 +112,7 @@ def main():
             "categoria": cat,
             "cidade_busca": card["place"],
             "termo": card["term"],
-            "sinal_brasileiro": "sim" if br and re.search(r"brazil|brasil|limpeza|faxina", br.group(0), re.I) else ("talvez" if br else ""),
+            "sinal_brasileiro": signal,
             "link_maps": card["href"].split("?")[0],
         })
 
