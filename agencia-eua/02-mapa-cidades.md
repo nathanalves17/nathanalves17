@@ -63,6 +63,48 @@ estimativa do Itamaraty. [Boston Foundation][tbf]
 - **Geórgia:** região de Atlanta (120 mil pelo Itamaraty; Marietta é polo conhecido)
 - Charlotte (NC) 1.353, Phoenix (AZ) 1.580, Aspen Hill (MD) 1.631, Chicago 3.206
 
+## Onde estão os EMPREENDEDORES (o público-alvo)
+
+### Dados oficiais (ACS 2022, por estado; não existe dado por cidade)
+
+Donos de negócio brasileiros: **Flórida 30.985 (24,7%)**, **Massachusetts 24.488 (19,5%)**,
+Califórnia 10,4%, Nova Jersey 8,2%, Connecticut 4,9%, Texas 4,2%, Nova York 4,1%,
+Pensilvânia 3,2%, Geórgia 2,9%, Maryland 2,0%. [Boston Foundation][tbf]
+A taxa de autônomos entre imigrantes brasileiros é de ~24% nos EUA e 27,6% em MA, quase 3 vezes
+a de outros imigrantes. Ou seja, **cerca de 1 em cada 4 brasileiros tem negócio próprio**.
+
+Sinais por cidade: no centro de Framingham, ~85% dos negócios são de imigrantes e existe uma
+associação comercial majoritariamente brasileira. Pompano Beach é descrita em estudo como
+"enclave típico" de empreendedores brasileiros.
+
+### Medição na prática: quem anuncia em português nos EUA (17/11/2026)
+
+Script `src/us_brazil_scan.js`: 28 buscas em português na Biblioteca de Anúncios (país = EUA,
+anúncios ativos). Resultado: **303 anunciantes únicos**. Contagem por cidade citada no anúncio
+ou no nome da página (`src/us_brazil_report.py` → `data/eua/cidades_anunciantes.csv`):
+
+| Cidade | Anunciantes | Observação |
+|---|---|---|
+| **Orlando** | **29** | ~20 negócios locais (concreto, mudança, wallpaper, insulfilm, limpeza, estofados, dentista, buffet, filtro de água). O resto é turismo (aluguel de carro, estacionamento no aeroporto) ou falso positivo |
+| Miami | 7 | Aluguel de carro, autoescola, empreiteira |
+| Boston | 3 | Limpeza e advogados |
+| Framingham, Marlborough | 2 cada | Carros, advogado, moda |
+| Tampa, Houston, Nova York, Las Vegas, Windermere | 2 cada | |
+| Newark, Danbury, Marietta, Milford, Hudson, Boca Raton, Jacksonville | 1 cada | |
+
+Por estado citado: **FL 46, MA 25**, CA 8, TX 3, CT 3, PA 3.
+
+Limites: só lê os ~30 primeiros anúncios de cada busca. "Pintura" e "reforma" também pegam
+anúncio em espanhol. E muito negócio brasileiro de home service anuncia em inglês, para o
+americano, então não aparece nessa busca.
+
+**Leitura:** Orlando é onde mais empreendedor brasileiro **já paga anúncio em português**, o
+que prova disposição de pagar marketing. Massachusetts tem quase tantos donos de negócio, mas
+anuncia menos em português (vive de indicação ou anuncia em inglês). Isso é menos concorrência
+para a agência, mas exige achar os clientes pelo Google Maps e pelos grupos, não pela
+Biblioteca de Anúncios. Os 303 anunciantes em `data/eua/scan_ads.jsonl` já são uma lista de
+leads quentes.
+
 ## Leitura: onde atacar com home services
 
 1. **Massachusetts, MetroWest e Grande Boston** (Framingham, Marlborough, Milford, Everett,
